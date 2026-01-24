@@ -5,25 +5,136 @@
     <%- include('../partials/header') %>
     <%- include('../partials/navbar') %>
 
-    <main class="container" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
-        <h2 style="color: var(--primary-blue); border-bottom: 2px solid var(--secondary-blue); padding-bottom: 10px; margin-bottom: 20px;"><%= title %></h2>
+    <main class="container" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto;">
         
-        <div class="content-box" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
-            <h3>Our Objectives</h3>
-            <ul style="margin-left: 20px; margin-top: 10px;">
-                <li>To ensure 24/7 water supply to all zones.</li>
-                <li>To maintain water quality standards as per WHO guidelines.</li>
-                <li>To reduce water wastage through leak detection and smart metering.</li>
-                <li>To promote rainwater harvesting and water recycling.</li>
-            </ul>
+        <!-- Objectives Section -->
+        <section class="objectives-section" style="margin-bottom: 60px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <span style="background-color: var(--light-blue); color: var(--primary-blue); padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">OUR MISSION</span>
+                <h2 style="color: var(--dark-blue); font-size: 2.5rem; margin-top: 10px;">Objectives of the Project</h2>
+                <div style="width: 60px; height: 4px; background: var(--secondary-blue); margin: 15px auto;"></div>
+            </div>
 
-            <h3 style="margin-top: 30px;">Our Functions</h3>
-            <ul style="margin-left: 20px; margin-top: 10px;">
-                <li>Planning and execution of water supply schemes.</li>
-                <li>Operation and maintenance of water treatment plants.</li>
-                <li>Collection of water charges and redressal of consumer grievances.</li>
-            </ul>
-        </div>
+            <div class="grid-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <!-- Objective Cards -->
+                <div class="obj-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 4px solid var(--primary-blue); display: flex; align-items: start; gap: 15px;">
+                    <i class="fas fa-bullseye" style="color: var(--primary-blue); font-size: 1.5rem; margin-top: 3px;"></i>
+                    <div>
+                        <h4 style="color: var(--dark-blue); font-size: 1.1rem; margin-bottom: 5px;">Centralized Platform</h4>
+                        <p style="color: #666; font-size: 0.95rem;">To provide a centralized digital platform for municipal water supply information.</p>
+                    </div>
+                </div>
+
+                <div class="obj-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 4px solid var(--secondary-blue); display: flex; align-items: start; gap: 15px;">
+                    <i class="fas fa-clock" style="color: var(--secondary-blue); font-size: 1.5rem; margin-top: 3px;"></i>
+                    <div>
+                        <h4 style="color: var(--dark-blue); font-size: 1.1rem; margin-bottom: 5px;">Clear Schedules</h4>
+                        <p style="color: #666; font-size: 0.95rem;">To display area-wise water supply schedules clearly for citizens.</p>
+                    </div>
+                </div>
+
+                <div class="obj-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 4px solid #e63946; display: flex; align-items: start; gap: 15px;">
+                    <i class="fas fa-bell" style="color: #e63946; font-size: 1.5rem; margin-top: 3px;"></i>
+                    <div>
+                        <h4 style="color: var(--dark-blue); font-size: 1.1rem; margin-bottom: 5px;">Advance Alerts</h4>
+                        <p style="color: #666; font-size: 0.95rem;">To inform users about planned and emergency water cuts in advance.</p>
+                    </div>
+                </div>
+
+                <div class="obj-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 4px solid var(--primary-blue); display: flex; align-items: start; gap: 15px;">
+                    <i class="fas fa-heartbeat" style="color: var(--primary-blue); font-size: 1.5rem; margin-top: 3px;"></i>
+                    <div>
+                        <h4 style="color: var(--dark-blue); font-size: 1.1rem; margin-bottom: 5px;">Public Health</h4>
+                        <p style="color: #666; font-size: 0.95rem;">To monitor and display water quality status to ensure public health safety.</p>
+                    </div>
+                </div>
+
+                <div class="obj-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 4px solid var(--secondary-blue); display: flex; align-items: start; gap: 15px;">
+                    <i class="fas fa-handshake" style="color: var(--secondary-blue); font-size: 1.5rem; margin-top: 3px;"></i>
+                    <div>
+                        <h4 style="color: var(--dark-blue); font-size: 1.1rem; margin-bottom: 5px;">Transparency</h4>
+                        <p style="color: #666; font-size: 0.95rem;">To improve transparency between the municipal corporation and citizens.</p>
+                    </div>
+                </div>
+
+                <div class="obj-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 4px solid #e63946; display: flex; align-items: start; gap: 15px;">
+                    <i class="fas fa-bullhorn" style="color: #e63946; font-size: 1.5rem; margin-top: 3px;"></i>
+                    <div>
+                        <h4 style="color: var(--dark-blue); font-size: 1.1rem; margin-bottom: 5px;">Awareness</h4>
+                        <p style="color: #666; font-size: 0.95rem;">To promote water conservation and awareness through informative messages.</p>
+                    </div>
+                </div>
+
+                 <div class="obj-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 4px solid var(--primary-blue); display: flex; align-items: start; gap: 15px;">
+                    <i class="fas fa-city" style="color: var(--primary-blue); font-size: 1.5rem; margin-top: 3px;"></i>
+                    <div>
+                        <h4 style="color: var(--dark-blue); font-size: 1.1rem; margin-bottom: 5px;">Smart Initiatives</h4>
+                        <p style="color: #666; font-size: 0.95rem;">To support smart city initiatives using modern web technologies.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Functions Section -->
+        <section class="functions-section" style="background: var(--white); padding: 50px; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.05);">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <span style="background-color: #e63946; color: white; padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">HOW IT WORKS</span>
+                <h2 style="color: var(--dark-blue); font-size: 2.5rem; margin-top: 10px;">Functions of the System</h2>
+                <div style="width: 60px; height: 4px; background: #e63946; margin: 15px auto;"></div>
+            </div>
+
+            <div class="functions-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px;">
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="min-width: 40px; height: 40px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-blue);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <p style="color: #555; font-size: 1.05rem;">Displays <strong>area-wise water supply timings</strong> based on selected location.</p>
+                </div>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="min-width: 40px; height: 40px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-blue);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <p style="color: #555; font-size: 1.05rem;">Publishes <strong>water cut notices</strong> and maintenance alerts online.</p>
+                </div>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="min-width: 40px; height: 40px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-blue);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <p style="color: #555; font-size: 1.05rem;">Shows <strong>live water quality status</strong> (Safe / Moderate / Polluted).</p>
+                </div>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="min-width: 40px; height: 40px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-blue);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <p style="color: #555; font-size: 1.05rem;">Updates water-related information dynamically through the backend system.</p>
+                </div>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="min-width: 40px; height: 40px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-blue);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <p style="color: #555; font-size: 1.05rem;">Circulates <strong>awareness messages</strong> related to water usage and hygiene.</p>
+                </div>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="min-width: 40px; height: 40px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-blue);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <p style="color: #555; font-size: 1.05rem;">Allows easy access to information through any web browser.</p>
+                </div>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="min-width: 40px; height: 40px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-blue);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <p style="color: #555; font-size: 1.05rem;">Reduces dependency on manual notices and word-of-mouth communication.</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <%- include('../partials/footer') %>

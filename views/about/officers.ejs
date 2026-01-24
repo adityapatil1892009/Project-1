@@ -5,32 +5,148 @@
     <%- include('../partials/header') %>
     <%- include('../partials/navbar') %>
 
-    <main class="container" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
-        <h2 style="color: var(--primary-blue); border-bottom: 2px solid var(--secondary-blue); padding-bottom: 10px; margin-bottom: 20px;"><%= title %></h2>
+    <main class="container" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto;">
         
-        <div class="content-box" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="background: var(--light-blue);">
-                        <th style="padding: 10px; text-align: left;">Name</th>
-                        <th style="padding: 10px; text-align: left;">Designation</th>
-                        <th style="padding: 10px; text-align: left;">Contact</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee;">Mr. Rajesh Kumar</td>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee;">Chief Engineer</td>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee;">ce@water.gov.in</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee;">Ms. Anita Singh</td>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee;">Executive Engineer (Zone A)</td>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee;">ee.zonea@water.gov.in</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h2 style="color: var(--dark-blue); font-size: 2.5rem; margin-bottom: 10px;">Officers and Employees</h2>
+            <div style="width: 80px; height: 4px; background: var(--secondary-blue); margin: 0 auto 20px;"></div>
+            <p style="color: #666; max-width: 700px; margin: 0 auto;">
+                Contact details of key officials responsible for water supply management in your area.
+            </p>
+            <a href="https://www.pmc.gov.in/en/d/water" target="_blank" style="display: inline-block; margin-top: 15px; color: var(--primary-blue); text-decoration: none; font-weight: 600; border: 1px solid var(--primary-blue); padding: 8px 20px; border-radius: 5px; transition: all 0.3s;">
+                <i class="fas fa-external-link-alt"></i> Visit Official PMC Water Supply Dept.
+            </a>
         </div>
+
+        <!-- Section: Area Wise Heads -->
+        <section style="margin-bottom: 60px;">
+            <h3 style="color: var(--primary-blue); font-size: 1.8rem; margin-bottom: 30px; border-left: 5px solid var(--primary-blue); padding-left: 15px;">
+                Area Wise Heads (Executive Engineers)
+            </h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;">
+                <!-- Card 1 -->
+                <div class="contact-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s;">
+                    <div style="background: var(--light-blue); padding: 20px; text-align: center;">
+                        <div style="width: 80px; height: 80px; background: white; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary-blue);">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4 style="color: var(--dark-blue); margin: 0;">Mr. Rajesh Kumar</h4>
+                        <span style="font-size: 0.9rem; color: #555;">Zone A (Central Pune)</span>
+                    </div>
+                    <div style="padding: 20px;">
+                        <p style="margin-bottom: 10px; color: #555;"><i class="fas fa-phone-alt" style="width: 20px; color: var(--secondary-blue);"></i> +91-20-25501000</p>
+                        <p style="margin-bottom: 10px; color: #555;"><i class="fas fa-envelope" style="width: 20px; color: var(--secondary-blue);"></i> ee.zonea@pmc.gov.in</p>
+                        <p style="color: #555;"><i class="fas fa-map-marker-alt" style="width: 20px; color: var(--secondary-blue);"></i> Shivaji Nagar Office</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="contact-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s;">
+                    <div style="background: var(--light-blue); padding: 20px; text-align: center;">
+                        <div style="width: 80px; height: 80px; background: white; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary-blue);">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4 style="color: var(--dark-blue); margin: 0;">Ms. Anita Singh</h4>
+                        <span style="font-size: 0.9rem; color: #555;">Zone B (Kothrud & West)</span>
+                    </div>
+                    <div style="padding: 20px;">
+                        <p style="margin-bottom: 10px; color: #555;"><i class="fas fa-phone-alt" style="width: 20px; color: var(--secondary-blue);"></i> +91-20-25501001</p>
+                        <p style="margin-bottom: 10px; color: #555;"><i class="fas fa-envelope" style="width: 20px; color: var(--secondary-blue);"></i> ee.zoneb@pmc.gov.in</p>
+                        <p style="color: #555;"><i class="fas fa-map-marker-alt" style="width: 20px; color: var(--secondary-blue);"></i> Karve Road Office</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="contact-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: transform 0.3s;">
+                    <div style="background: var(--light-blue); padding: 20px; text-align: center;">
+                        <div style="width: 80px; height: 80px; background: white; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary-blue);">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4 style="color: var(--dark-blue); margin: 0;">Mr. Suresh Patil</h4>
+                        <span style="font-size: 0.9rem; color: #555;">Zone C (Hadapsar & East)</span>
+                    </div>
+                    <div style="padding: 20px;">
+                        <p style="margin-bottom: 10px; color: #555;"><i class="fas fa-phone-alt" style="width: 20px; color: var(--secondary-blue);"></i> +91-20-25501002</p>
+                        <p style="margin-bottom: 10px; color: #555;"><i class="fas fa-envelope" style="width: 20px; color: var(--secondary-blue);"></i> ee.zonec@pmc.gov.in</p>
+                        <p style="color: #555;"><i class="fas fa-map-marker-alt" style="width: 20px; color: var(--secondary-blue);"></i> Hadapsar Ward Office</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Worker Heads -->
+        <section>
+            <h3 style="color: var(--dark-blue); font-size: 1.8rem; margin-bottom: 30px; border-left: 5px solid #e63946; padding-left: 15px;">
+                Worker Heads (Supervisors/Foremen)
+            </h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;">
+                <!-- Worker Card 1 -->
+                <div class="contact-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-top: 3px solid #e63946;">
+                    <div style="padding: 20px; display: flex; align-items: center; gap: 15px;">
+                        <div style="min-width: 60px; height: 60px; background: #ffe5e7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #e63946;">
+                            <i class="fas fa-hard-hat"></i>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--dark-blue); margin: 0;">Mr. Anand Rao</h4>
+                            <span style="font-size: 0.85rem; color: #666; font-weight: 600;">Senior Supervisor (Maintenance)</span>
+                        </div>
+                    </div>
+                    <div style="padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 5px; padding-top: 15px;">
+                        <p style="margin-bottom: 8px; font-size: 0.95rem; color: #555;">
+                            <i class="fas fa-phone" style="color: #e63946; width: 20px;"></i> +91-9876543210
+                        </p>
+                        <p style="font-size: 0.95rem; color: #555;">
+                            <i class="fas fa-map-pin" style="color: #e63946; width: 20px;"></i> Central Zone Workshop
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Worker Card 2 -->
+                <div class="contact-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-top: 3px solid #e63946;">
+                    <div style="padding: 20px; display: flex; align-items: center; gap: 15px;">
+                        <div style="min-width: 60px; height: 60px; background: #ffe5e7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #e63946;">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--dark-blue); margin: 0;">Mr. Vilas Deshmukh</h4>
+                            <span style="font-size: 0.85rem; color: #666; font-weight: 600;">Head Valveman</span>
+                        </div>
+                    </div>
+                    <div style="padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 5px; padding-top: 15px;">
+                        <p style="margin-bottom: 8px; font-size: 0.95rem; color: #555;">
+                            <i class="fas fa-phone" style="color: #e63946; width: 20px;"></i> +91-9876543211
+                        </p>
+                        <p style="font-size: 0.95rem; color: #555;">
+                            <i class="fas fa-map-pin" style="color: #e63946; width: 20px;"></i> Kothrud Depot
+                        </p>
+                    </div>
+                </div>
+
+                 <!-- Worker Card 3 -->
+                <div class="contact-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-top: 3px solid #e63946;">
+                    <div style="padding: 20px; display: flex; align-items: center; gap: 15px;">
+                        <div style="min-width: 60px; height: 60px; background: #ffe5e7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #e63946;">
+                            <i class="fas fa-faucet"></i>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--dark-blue); margin: 0;">Mr. Sanjay More</h4>
+                            <span style="font-size: 0.85rem; color: #666; font-weight: 600;">Line Inspector</span>
+                        </div>
+                    </div>
+                    <div style="padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 5px; padding-top: 15px;">
+                        <p style="margin-bottom: 8px; font-size: 0.95rem; color: #555;">
+                            <i class="fas fa-phone" style="color: #e63946; width: 20px;"></i> +91-9876543212
+                        </p>
+                        <p style="font-size: 0.95rem; color: #555;">
+                            <i class="fas fa-map-pin" style="color: #e63946; width: 20px;"></i> Hadapsar Unit
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <%- include('../partials/footer') %>
