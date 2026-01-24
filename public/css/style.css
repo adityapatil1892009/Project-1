@@ -1,0 +1,341 @@
+:root {
+    --primary-blue: #0077b6;
+    --secondary-blue: #00b4d8;
+    --light-blue: #caf0f8;
+    --dark-blue: #03045e;
+    --white: #ffffff;
+    --text-color: #333;
+    --bg-color: #f4f4f4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+.main-header {
+    background-color: var(--white);
+    padding: 10px 20px;
+    border-bottom: 4px solid var(--primary-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centered as per request "liken water.maharastra.gov.in" often centers or left aligns, I'll center for better look if logo is missing */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.gov-logo {
+    height: 80px;
+}
+
+.header-text h1 {
+    color: var(--primary-blue);
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.header-text h2 {
+    color: var(--dark-blue);
+    font-size: 1.2rem;
+    font-weight: normal;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--dark-blue);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    padding: 15px 20px;
+    display: block;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.nav-links a:hover, .dropdown:hover .dropbtn {
+    background-color: var(--primary-blue);
+}
+
+/* Dropdown */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--white);
+    min-width: 220px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown-content a {
+    color: var(--text-color);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--light-blue);
+    color: var(--dark-blue);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Sub-Dropdown */
+.sub-dropdown {
+    position: relative;
+}
+
+.sub-dropdown-content {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: var(--white);
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.sub-dropdown:hover .sub-dropdown-content {
+    display: block;
+}
+
+.sub-dropbtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Hero Slider */
+.hero-slider {
+    position: relative;
+    max-width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.slide.active {
+    display: block;
+}
+
+.slide-content {
+    position: absolute;
+    bottom: 20%;
+    left: 10%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.3);
+    border: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* Awareness Section */
+.awareness-section {
+    background-color: var(--secondary-blue);
+    color: var(--white);
+    padding: 20px;
+    text-align: center;
+}
+
+.message-container h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.message-container p {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Notices Section */
+.notices-section {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.notices-section h3 {
+    text-align: center;
+    color: var(--primary-blue);
+    margin-bottom: 30px;
+    font-size: 2rem;
+    border-bottom: 2px solid var(--light-blue);
+    display: inline-block;
+    padding-bottom: 10px;
+    /* Center the block element */
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.notices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.notice-card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-left: 5px solid var(--primary-blue);
+    transition: transform 0.2s;
+}
+
+.notice-card:hover {
+    transform: translateY(-5px);
+}
+
+.notice-date {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.notice-card h4 {
+    color: var(--dark-blue);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+/* Footer */
+.main-footer {
+    background-color: var(--dark-blue);
+    color: var(--white);
+    padding: 40px 20px 20px;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-section h3 {
+    color: var(--secondary-blue);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+    color: #ddd;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: var(--secondary-blue);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        display: none; /* Mobile menu implementation would require JS toggle, sticking to simple for now or always visible? 
+                         For "fully functioning", I should probably make it responsive or just allow it to wrap */
+    }
+    
+    /* Simple mobile view: Stack links */
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .logo-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}

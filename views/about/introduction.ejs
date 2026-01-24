@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+    <%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+    <main class="container" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
+        <h2 style="color: var(--primary-blue); border-bottom: 2px solid var(--secondary-blue); padding-bottom: 10px; margin-bottom: 20px;"><%= title %></h2>
+        
+        <div class="content-box" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+            <p>Welcome to the official portal of the Water Supply Department.</p>
+            <p>Our department is dedicated to providing safe, clean, and reliable water supply to every citizen of the Smart City.</p>
+            <br>
+            <p>Established in 1980, we manage the entire water cycle from sourcing, treatment, distribution to sewage collection and treatment.</p>
+            
+            <img src="https://picsum.photos/800/300?water" alt="Water Supply" style="width: 100%; margin-top: 20px; border-radius: 4px;">
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

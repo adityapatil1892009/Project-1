@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "title": "Pipeline Maintenance in Sector 4",
+        "date": "2023-10-25",
+        "content": "Water supply will be disrupted in Sector 4 from 10 AM to 2 PM due to urgent pipeline repairs."
+    },
+    {
+        "id": 2,
+        "title": "Schedule Change for Weekend",
+        "date": "2023-10-26",
+        "content": "Sunday water supply schedule has been shifted to 7 AM - 10 AM for all zones."
+    },
+    {
+        "id": 3,
+        "title": "Water Conservation Workshop",
+        "date": "2023-11-01",
+        "content": "Join us for a workshop on rainwater harvesting at the Community Center."
+    }
+]

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+    <%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+    <main class="container" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
+        <h2 style="color: var(--primary-blue); border-bottom: 2px solid var(--secondary-blue); padding-bottom: 10px; margin-bottom: 20px;"><%= title %></h2>
+        
+        <div class="content-box">
+            <p>We maintain a pipeline network of over 500 km across the city.</p>
+            <h3>Key Features</h3>
+            <ul>
+                <li>SCADA monitored pressure control.</li>
+                <li>Real-time leak detection sensors.</li>
+                <li>Automated valves.</li>
+            </ul>
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>
