@@ -1,6 +1,92 @@
 {
-    "Zone A": "6:00 AM - 9:00 AM",
-    "Zone B": "9:00 AM - 12:00 PM",
-    "Zone C": "4:00 PM - 7:00 PM",
-    "Zone D": "7:00 PM - 10:00 PM"
+    "Shivajinagar": {
+        "zone": "Zone A",
+        "status": "Active",
+        "timing": "6:00 AM - 8:00 AM",
+        "duration": "2 hours"
+    },
+    "Kothrud": {
+        "zone": "Zone B",
+        "status": "Active",
+        "timing": "5:30 AM - 7:30 AM",
+        "duration": "2 hours"
+    },
+    "Hadapsar": {
+        "zone": "Zone C",
+        "status": "Active",
+        "timing": "6:00 AM - 9:00 AM",
+        "duration": "3 hours"
+    },
+    "Viman Nagar": {
+        "zone": "Zone C",
+        "status": "Interrupted",
+        "timing": "7:00 AM - 9:00 AM",
+        "duration": "2 hours"
+    },
+    "Deccan": {
+        "zone": "Zone A",
+        "status": "Active",
+        "timing": "5:00 AM - 7:00 AM",
+        "duration": "2 hours"
+    },
+    "Aundh": {
+        "zone": "Zone B",
+        "status": "Active",
+        "timing": "6:30 AM - 8:30 AM",
+        "duration": "2 hours"
+    },
+    "Baner": {
+        "zone": "Zone B",
+        "status": "Active",
+        "timing": "7:00 AM - 9:00 AM",
+        "duration": "2 hours"
+    },
+    "Kondhwa": {
+        "zone": "Zone D",
+        "status": "Active",
+        "timing": "5:30 AM - 8:00 AM",
+        "duration": "2.5 hours"
+    },
+    "Wakad": {
+        "zone": "Zone B",
+        "status": "Scheduled",
+        "timing": "6:00 AM - 8:00 AM",
+        "duration": "2 hours"
+    },
+    "Pimpri": {
+        "zone": "Zone E",
+        "status": "Active",
+        "timing": "5:00 AM - 7:30 AM",
+        "duration": "2.5 hours"
+    },
+    "Chinchwad": {
+        "zone": "Zone E",
+        "status": "Active",
+        "timing": "6:00 AM - 8:00 AM",
+        "duration": "2 hours"
+    },
+    "Hinjewadi": {
+        "zone": "Zone E",
+        "status": "Active",
+        "timing": "7:00 AM - 9:30 AM",
+        "duration": "2.5 hours"
+    },
+    "Karve Nagar": {
+        "zone": "Zone A",
+        "status": "Active",
+        "timing": "5:30 AM - 7:30 AM",
+        "duration": "2 hours"
+    },
+    "Warje": {
+        "zone": "Zone D",
+        "status": "Active",
+        "timing": "6:00 AM - 8:30 AM",
+        "duration": "2.5 hours"
+    },
+    "Sinhagad Road": {
+        "zone": "Zone D",
+        "status": "Active",
+        "timing": "5:00 AM - 7:00 AM",
+        "duration": "2 hours"
+    }
 }

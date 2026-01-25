@@ -5,56 +5,66 @@
     <%- include('partials/header') %>
     <%- include('partials/navbar') %>
 
-    <main class="container" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto;">
-        <div style="margin-bottom: 20px;">
-            <h2 style="color: var(--primary-blue); border-bottom: 2px solid var(--secondary-blue); padding-bottom: 10px; margin-bottom: 10px;">Water Supply Schedules</h2>
-            <p style="color: #666; font-size: 14px;">View water supply timings for different areas of Pune</p>
+    <main class="container" style="padding: 40px 20px; max-width: 1400px; margin: 0 auto;">
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: #1a202c; margin: 0 0 8px 0; font-size: 28px; font-weight: 600;">Water Supply Schedules</h1>
+            <p style="color: #718096; font-size: 14px; margin: 0;">View water supply timings for different areas of Pune</p>
         </div>
         
         <div style="margin-bottom: 30px;">
-            <input type="text" placeholder="Search by area or zone..." style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+            <div style="position: relative; max-width: 400px;">
+                <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #a0aec0; font-size: 16px;">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search by area or zone..." style="width: 100%; padding: 10px 15px 10px 40px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+            </div>
         </div>
 
-        <div class="schedule-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+        <div class="schedule-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px;">
             <% if (schedule) { %>
                 <% Object.entries(schedule).forEach(([area, details]) => { 
                     const status = details.status || 'Active';
-                    const timing = details.timing || details;
+                    const timing = details.timing || '';
                     const duration = details.duration || '';
                     const zone = details.zone || '';
-                    const statusColor = status === 'Active' ? '#10B981' : status === 'Interrupted' ? '#EF4444' : '#93C5FD';
-                    const statusBg = status === 'Active' ? '#D1FAE5' : status === 'Interrupted' ? '#FEE2E2' : '#DBEAFE';
+                    let statusColor = '#059669';
+                    let statusBg = '#d1fae5';
+                    if (status === 'Interrupted') {
+                        statusColor = '#dc2626';
+                        statusBg = '#fee2e2';
+                    } else if (status === 'Scheduled') {
+                        statusColor = '#2563eb';
+                        statusBg = '#dbeafe';
+                    }
                 %>
-                    <div style="background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid var(--primary-blue);">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <div style="background: white; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-left: 4px solid #3b82f6;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
                             <div>
-                                <h3 style="color: var(--dark-blue); margin: 0 0 5px 0; font-size: 18px;"><%= area %></h3>
-                                <p style="color: #666; margin: 0; font-size: 12px;"><%= zone %></p>
+                                <h3 style="color: #1a202c; margin: 0 0 4px 0; font-size: 15px; font-weight: 600;"><%= area %></h3>
+                                <p style="color: #718096; margin: 0; font-size: 12px;"><%= zone %></p>
                             </div>
-                            <span style="background-color: <%= statusBg %>; color: <%= statusColor %>; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap;">
+                            <span style="background-color: <%= statusBg %>; color: <%= statusColor %>; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 600; white-space: nowrap; margin-left: 8px;">
                                 <%= status %>
                             </span>
                         </div>
                         
-                        <div style="display: flex; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;">
-                            <span style="color: var(--primary-blue); margin-right: 10px; font-size: 18px;">🕐</span>
-                            <div>
-                                <p style="margin: 0; font-size: 12px; color: #999;">Timing</p>
-                                <p style="margin: 0; font-size: 14px; font-weight: 600; color: var(--dark-blue);"><%= timing %></p>
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0;">
+                            <span style="color: #3b82f6; margin-right: 10px; font-size: 16px; min-width: 18px;">🕐</span>
+                            <div style="flex: 1;">
+                                <p style="margin: 0; font-size: 11px; color: #a0aec0; font-weight: 500;">Timing</p>
+                                <p style="margin: 0; font-size: 13px; font-weight: 600; color: #1a202c;"><%= timing %></p>
                             </div>
                         </div>
                         
-                        <div style="display: flex; align-items: center;">
-                            <span style="color: var(--primary-blue); margin-right: 10px; font-size: 18px;">📅</span>
-                            <div>
-                                <p style="margin: 0; font-size: 12px; color: #999;">Duration</p>
-                                <p style="margin: 0; font-size: 14px; font-weight: 600; color: var(--dark-blue);"><%= duration %></p>
+                        <div style="display: flex; align-items: flex-start;">
+                            <span style="color: #3b82f6; margin-right: 10px; font-size: 16px; min-width: 18px;">📋</span>
+                            <div style="flex: 1;">
+                                <p style="margin: 0; font-size: 11px; color: #a0aec0; font-weight: 500;">Duration</p>
+                                <p style="margin: 0; font-size: 13px; font-weight: 600; color: #1a202c;"><%= duration %></p>
                             </div>
                         </div>
                     </div>
                 <% }); %>
             <% } else { %>
-                <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: #999;">
+                <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: #a0aec0;">
                     <p>No schedule information available.</p>
                 </div>
             <% } %>
@@ -62,5 +72,16 @@
     </main>
 
     <%- include('partials/footer') %>
+    
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.schedule-container > div');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
 </body>
 </html>
