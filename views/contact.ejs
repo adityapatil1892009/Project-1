@@ -5,27 +5,131 @@
     <%- include('partials/header') %>
     <%- include('partials/navbar') %>
 
-    <main class="container" style="padding: 40px 20px; max-width: 800px; margin: 0 auto;">
-        <h2 style="color: var(--primary-blue); margin-bottom: 20px;">Contact Us</h2>
-        
-        <div class="contact-info" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.1);">
-            <p><strong><i class="fas fa-map-marker-alt"></i> Address:</strong><br>
-            Water Supply Department, Civic Center,<br>
-            Smart City, Maharashtra - 400001</p>
-            <br>
-            <p><strong><i class="fas fa-phone"></i> Helpline:</strong> 1800-123-4567</p>
-            <p><strong><i class="fas fa-envelope"></i> Email:</strong> helpdesk@water.smartcity.gov.in</p>
+    <main class="contact-wrapper">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="color: var(--primary-blue); font-size: 2.5rem; margin-bottom: 10px;">Contact Us</h1>
+            <p style="color: #666; font-size: 1.1rem;">Get in touch with our Water Supply Department</p>
         </div>
 
-        <h3 style="margin-top: 40px; color: var(--dark-blue);">Send us a Message</h3>
-        <form style="margin-top: 20px; display: grid; gap: 15px;">
-            <input type="text" placeholder="Your Name" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-            <input type="email" placeholder="Your Email" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-            <textarea rows="5" placeholder="Your Message" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
-            <button type="button" onclick="alert('Message sent! We will contact you shortly.')" style="padding: 12px; background: var(--primary-blue); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit</button>
-        </form>
+        <!-- Contact Information Section -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto 60px; padding: 0 20px;">
+            <!-- Address Card -->
+            <div class="contact-card">
+                <div class="contact-row">
+                    <i class="fas fa-map-marker-alt" style="color: var(--primary-blue); font-size: 1.8rem; min-width: 50px;"></i>
+                    <div>
+                        <strong style="font-size: 1.1rem; color: var(--dark-blue);">Address</strong><br>
+                        <span style="color: #666;">Water Supply Department, Civic Center,<br>Smart City, Maharashtra - 400001</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone Card -->
+            <div class="contact-card">
+                <div class="contact-row">
+                    <i class="fas fa-phone" style="color: var(--primary-blue); font-size: 1.8rem; min-width: 50px;"></i>
+                    <div>
+                        <strong style="font-size: 1.1rem; color: var(--dark-blue);">Helpline</strong><br>
+                        <span style="color: #666;"><a href="tel:18001234567" style="color: var(--primary-blue); text-decoration: none;">1800-123-4567</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Card -->
+            <div class="contact-card">
+                <div class="contact-row">
+                    <i class="fas fa-envelope" style="color: var(--primary-blue); font-size: 1.8rem; min-width: 50px;"></i>
+                    <div>
+                        <strong style="font-size: 1.1rem; color: var(--dark-blue);">Email</strong><br>
+                        <span style="color: #666;"><a href="mailto:support@watersupply.gov.in" style="color: var(--primary-blue); text-decoration: none;">support@watersupply.gov.in</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Office Hours Card -->
+            <div class="contact-card">
+                <div class="contact-row">
+                    <i class="fas fa-clock" style="color: var(--primary-blue); font-size: 1.8rem; min-width: 50px;"></i>
+                    <div>
+                        <strong style="font-size: 1.1rem; color: var(--dark-blue);">Office Hours</strong><br>
+                        <span style="color: #666;">Mon - Fri: 9:00 AM - 5:30 PM<br>Sat: 9:00 AM - 1:00 PM<br>Sun: Closed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Card -->
+            <div class="contact-card">
+                <div class="contact-row">
+                    <i class="fas fa-exclamation-circle" style="color: #e63946; font-size: 1.8rem; min-width: 50px;"></i>
+                    <div>
+                        <strong style="font-size: 1.1rem; color: var(--dark-blue);">Emergency</strong><br>
+                        <span style="color: #666;"><a href="tel:18002225678" style="color: #e63946; text-decoration: none; font-weight: 600;">1800-222-5678</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Follow Us Card -->
+            <div class="contact-card">
+                <div class="contact-row">
+                    <i class="fas fa-share-alt" style="color: var(--primary-blue); font-size: 1.8rem; min-width: 50px;"></i>
+                    <div>
+                        <strong style="font-size: 1.1rem; color: var(--dark-blue);">Follow Us</strong><br>
+                        <div style="margin-top: 8px; display: flex; gap: 10px;">
+                            <a href="#" style="color: var(--primary-blue); font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
+                            <a href="#" style="color: var(--primary-blue); font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                            <a href="#" style="color: var(--primary-blue); font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form Section -->
+        <div style="max-width: 600px; margin: 0 auto; padding: 0 20px 60px;">
+            <div style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+                <h3 style="color: var(--dark-blue); font-size: 1.5rem; margin-bottom: 30px; text-align: center;">Send us a Message</h3>
+                <form id="contactForm" onsubmit="handleSubmit(event)">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark-blue);">Name *</label>
+                        <input type="text" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark-blue);">Email *</label>
+                        <input type="email" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark-blue);">Phone Number *</label>
+                        <input type="tel" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark-blue);">Subject *</label>
+                        <input type="text" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark-blue);">Message *</label>
+                        <textarea rows="5" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="submit" style="width: 100%; padding: 14px; background: var(--primary-blue); color: white; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
     </main>
 
     <%- include('partials/footer') %>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            document.getElementById('contactForm').reset();
+        }
+    </script>
 </body>
 </html>

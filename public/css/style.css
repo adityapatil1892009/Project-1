@@ -335,6 +335,54 @@ body {
     background-color: var(--dark-blue);
 }
 
+/* Contact Page Styling */
+.contact-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    min-height: calc(100vh - 300px);
+}
+
+.contact-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-top: 4px solid var(--primary-blue);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: flex-start;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.contact-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.contact-row i {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.contact-row div {
+    flex: 1;
+}
+
+.contact-row a {
+    transition: color 0.3s;
+}
+
+.contact-row a:hover {
+    text-decoration: underline;
+}
+
 /* Footer */
 .main-footer {
     background-color: var(--dark-blue);
