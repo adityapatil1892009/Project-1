@@ -7,64 +7,79 @@
 
     <main class="container" style="padding: 40px 20px; max-width: 1400px; margin: 0 auto;">
         <div style="margin-bottom: 30px;">
-            <h1 style="color: #1a202c; margin: 0 0 8px 0; font-size: 28px; font-weight: 600;">Water Supply Schedules</h1>
-            <p style="color: #718096; font-size: 14px; margin: 0;">View water supply timings for different areas of Pune</p>
+            <h1 style="color: #1a202c; margin: 0 0 5px 0; font-size: 24px; font-weight: 600;">Water Supply Schedules</h1>
+            <p style="color: #718096; font-size: 13px; margin: 0;">View water supply timings for different areas of Pune</p>
         </div>
         
-        <div style="margin-bottom: 30px;">
-            <div style="position: relative; max-width: 400px;">
-                <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #a0aec0; font-size: 16px;">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search by area or zone..." style="width: 100%; padding: 10px 15px 10px 40px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
-            </div>
+        <div style="margin-bottom: 25px;">
+            <input type="text" id="searchInput" placeholder="Search by area or zone..." style="width: 100%; max-width: 100%; padding: 10px 15px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 14px; font-family: inherit;">
         </div>
 
-        <div class="schedule-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px;">
+        <div class="schedule-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
+            <% 
+            const cityOrder = ["Shivajinagar", "Kothrud", "Hadapsar", "Viman Nagar", "Deccan", "Aundh", "Baner", "Kondhwa", "Wakad", "Pimpri", "Chinchwad", "Hinjewadi", "Karve Nagar", "Warje", "Sinhagad Road"];
+            const orderedSchedule = {};
+            cityOrder.forEach(city => {
+                if (schedule && schedule[city]) {
+                    orderedSchedule[city] = schedule[city];
+                }
+            });
+            %>
             <% if (schedule) { %>
-                <% Object.entries(schedule).forEach(([area, details]) => { 
+                <% Object.entries(orderedSchedule).forEach(([area, details]) => { 
                     const status = details.status || 'Active';
                     const timing = details.timing || '';
                     const duration = details.duration || '';
                     const zone = details.zone || '';
-                    let statusColor = '#059669';
-                    let statusBg = '#d1fae5';
+                    let statusColor = '#10b981';
+                    let statusBg = '#ecfdf5';
                     if (status === 'Interrupted') {
-                        statusColor = '#dc2626';
-                        statusBg = '#fee2e2';
+                        statusColor = '#ef4444';
+                        statusBg = '#fef2f2';
                     } else if (status === 'Scheduled') {
-                        statusColor = '#2563eb';
-                        statusBg = '#dbeafe';
+                        statusColor = '#3b82f6';
+                        statusBg = '#eff6ff';
                     }
                 %>
-                    <div style="background: white; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-left: 4px solid #3b82f6;">
+                    <div style="background: white; border-radius: 6px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border-left: 3px solid var(--primary-blue); border-top: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb;">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
                             <div>
-                                <h3 style="color: #1a202c; margin: 0 0 4px 0; font-size: 15px; font-weight: 600;"><%= area %></h3>
+                                <h3 style="color: #1a202c; margin: 0 0 3px 0; font-size: 15px; font-weight: 600;"><%= area %></h3>
                                 <p style="color: #718096; margin: 0; font-size: 12px;"><%= zone %></p>
                             </div>
-                            <span style="background-color: <%= statusBg %>; color: <%= statusColor %>; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 600; white-space: nowrap; margin-left: 8px;">
+                            <span style="background-color: <%= statusBg %>; color: <%= statusColor %>; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; white-space: nowrap; margin-left: 8px;">
                                 <%= status %>
                             </span>
                         </div>
                         
-                        <div style="display: flex; align-items: flex-start; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0;">
-                            <span style="color: #3b82f6; margin-right: 10px; font-size: 16px; min-width: 18px;">🕐</span>
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f3f4f6;">
+                            <span style="color: var(--primary-blue); margin-right: 10px; font-size: 14px; min-width: 16px;">⏰</span>
                             <div style="flex: 1;">
-                                <p style="margin: 0; font-size: 11px; color: #a0aec0; font-weight: 500;">Timing</p>
+                                <p style="margin: 0; font-size: 11px; color: #9ca3af; font-weight: 500;">Timing</p>
                                 <p style="margin: 0; font-size: 13px; font-weight: 600; color: #1a202c;"><%= timing %></p>
                             </div>
                         </div>
                         
                         <div style="display: flex; align-items: flex-start;">
-                            <span style="color: #3b82f6; margin-right: 10px; font-size: 16px; min-width: 18px;">📋</span>
+                            <span style="color: var(--primary-blue); margin-right: 10px; font-size: 14px; min-width: 16px;">📋</span>
                             <div style="flex: 1;">
-                                <p style="margin: 0; font-size: 11px; color: #a0aec0; font-weight: 500;">Duration</p>
+                                <p style="margin: 0; font-size: 11px; color: #9ca3af; font-weight: 500;">Duration</p>
                                 <p style="margin: 0; font-size: 13px; font-weight: 600; color: #1a202c;"><%= duration %></p>
                             </div>
                         </div>
+
+                        <% if (details.message) { %>
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #f3f4f6;">
+                                <p style="margin: 0; font-size: 11px; color: #f59e0b; display: flex; align-items: center;">
+                                    <span style="margin-right: 6px;">⚠</span>
+                                    <%= details.message %>
+                                </p>
+                            </div>
+                        <% } %>
                     </div>
                 <% }); %>
             <% } else { %>
-                <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: #a0aec0;">
+                <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: #999;">
                     <p>No schedule information available.</p>
                 </div>
             <% } %>
@@ -79,7 +94,7 @@
             const cards = document.querySelectorAll('.schedule-container > div');
             cards.forEach(card => {
                 const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(searchTerm) ? '' : 'none';
+                card.style.display = text.includes(searchTerm) ? 'block' : 'none';
             });
         });
     </script>
