@@ -56,7 +56,9 @@ app.get('/citizen/complaint', (req, res) => {
 
 // Services
 app.get('/services/tanks', (req, res) => {
-    res.render('services/tanks', { title: 'Water Tanks' });
+    const tanks = readData('tanks.json');
+    const plants = readData('plants.json');
+    res.render('services/tanks', { title: 'Water Tanks', tanks, plants });
 });
 
 // "Cleaning Schedules" is under Water Tanks, but we'll make it a separate route or a section

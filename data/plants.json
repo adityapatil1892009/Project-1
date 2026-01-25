@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Pune Water Treatment Plant 1",
+    "capacity": "100 million liters per day",
+    "maintenance": "Operational since 2005. Last major overhaul: 2022. Supplies to central Pune.",
+    "image": "/images/plants/plant1.jpg",
+    "location": "Sinhagad Road, Pune",
+    "area": "Central Pune districts",
+    "lat": 18.5167,
+    "lng": 73.8567
+  },
+  {
+    "name": "Pune Water Treatment Plant 2",
+    "capacity": "80 million liters per day",
+    "maintenance": "Operational since 2010. Regular filtration upgrades. Supplies to eastern Pune.",
+    "image": "/images/plants/plant2.jpg",
+    "location": "Wagholi, Pune",
+    "area": "Eastern Pune and suburbs",
+    "lat": 18.5802,
+    "lng": 73.9850
+  }
+]

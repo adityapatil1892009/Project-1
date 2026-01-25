@@ -5,20 +5,532 @@
     <%- include('../partials/header') %>
     <%- include('../partials/navbar') %>
 
-    <main class="container" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
-        <h2 style="color: var(--primary-blue); border-bottom: 2px solid var(--secondary-blue); padding-bottom: 10px; margin-bottom: 20px;"><%= title %></h2>
-        
-        <div class="content-box">
-            <p>Our city is served by a network of 15 elevated water reservoirs and 4 ground-level service reservoirs.</p>
-            <p>Total Capacity: 50 Million Liters.</p>
-            
-            <div style="margin-top: 20px;">
-                <a href="/services/tanks/cleaning-schedule" style="display: inline-block; padding: 10px 20px; background: var(--secondary-blue); color: white; text-decoration: none; border-radius: 4px;">View Cleaning Schedule</a>
+    <style>
+        /* Page-Specific Styles */
+        .tanks-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header h1 {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .section-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #777;
+            padding: 10px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .tab-btn.active {
+            color: var(--primary-blue);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -22px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-blue);
+            border-radius: 4px 4px 0 0;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* WTP List Layout */
+        .wtp-item {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+        }
+        .wtp-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .wtp-img {
+            width: 35%;
+            min-height: 250px;
+            object-fit: cover;
+        }
+        .wtp-details {
+            padding: 30px;
+            width: 65%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .wtp-name {
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .wtp-badge {
+            font-size: 0.8rem;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .wtp-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .stat-item h4 {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        .stat-item p {
+            color: var(--dark-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Tank Accordion Layout */
+        .zone-group {
+            margin-bottom: 20px;
+        }
+        .zone-header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid #eee;
+            transition: all 0.3s;
+        }
+        .zone-header:hover {
+            background: var(--light-blue);
+        }
+        .zone-title {
+            font-size: 1.3rem;
+            color: var(--dark-blue);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .zone-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+        }
+        .toggle-icon {
+            color: #aaa;
+            transition: transform 0.3s;
+        }
+        .zone-body {
+            background: #fafafa;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            border-radius: 0 0 12px 12px;
+            padding: 0 30px;
+        }
+        .zone-body.open {
+            padding: 20px 30px;
+            border: 1px solid #eee;
+            border-top: none;
+        }
+
+        /* Table Styling within Accordion */
+        .tank-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .tank-table th {
+            text-align: left;
+            color: #888;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .tank-table td {
+            padding: 15px 0;
+            color: #444;
+            border-bottom: 1px solid #eee;
+        }
+        .tank-table tr:last-child td {
+            border-bottom: none;
+        }
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .status-maintenance {
+            background-color: #ffc107;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .wtp-item {
+                flex-direction: column;
+            }
+            .wtp-img {
+                width: 100%;
+                height: 200px;
+                min-height: auto;
+            }
+            .wtp-details {
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <main class="tanks-container">
+        <!-- Header -->
+        <div class="section-header">
+            <h1>Water Infrastructure Network</h1>
+            <p>Explore the comprehensive network of Treatment Plants and Distribution Reservoirs ensuring 24/7 water supply to Pune City.</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="openTab('wtp')">Treatment Plants</button>
+            <button class="tab-btn" onclick="openTab('tanks')">Storage Reservoirs (ESRs)</button>
+        </div>
+
+        <!-- Tab 1: Water Treatment Plants -->
+        <div id="wtp" class="tab-content active">
+            <!-- Parvati WTP -->
+            <div class="wtp-item">
+                <img src="https://images.unsplash.com/photo-1574482620826-40685ca5ebd2?auto=format&fit=crop&w=800&q=80" alt="Parvati WTP" class="wtp-img">
+                <div class="wtp-details">
+                    <div class="wtp-name">
+                        Parvati Water Works <span class="wtp-badge">Main Plant</span>
+                    </div>
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">
+                        The largest water treatment facility in Pune, serving the central and southern parts of the city. Equipped with advanced rapid sand filtration systems.
+                    </p>
+                    <div class="wtp-stats">
+                        <div class="stat-item">
+                            <h4>Capacity</h4>
+                            <p>535 MLD</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Key Areas Served</h4>
+                            <p>Swargate, Deccan, Kothrud, Peth Areas</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Source</h4>
+                            <p>Khadakwasla Dam</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Maintenance</h4>
+                            <p>Weekly (Thursday)</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <img src="https://picsum.photos/800/400?tank" alt="Water Tank" style="width: 100%; margin-top: 20px; border-radius: 4px;">
+
+            <!-- Cantonment WTP -->
+            <div class="wtp-item">
+                <img src="https://images.unsplash.com/photo-1516937941344-00b4ec277ac0?auto=format&fit=crop&w=800&q=80" alt="Cantonment WTP" class="wtp-img">
+                <div class="wtp-details">
+                    <div class="wtp-name">
+                        Lashkar (Cantonment) WTP
+                    </div>
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">
+                        Dedicated facility for the Pune Camp and Eastern Pune regions, ensuring high-quality supply to defense and civilian zones.
+                    </p>
+                    <div class="wtp-stats">
+                        <div class="stat-item">
+                            <h4>Capacity</h4>
+                            <p>300 MLD</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Key Areas Served</h4>
+                            <p>Camp, Hadapsar, Wanowrie</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Source</h4>
+                            <p>Khadakwasla Right Bank Canal</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Maintenance</h4>
+                            <p>Bi-Weekly</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Vadgaon WTP -->
+             <div class="wtp-item">
+                <img src="https://images.unsplash.com/photo-1596772719692-a9b0c611488c?auto=format&fit=crop&w=800&q=80" alt="Vadgaon WTP" class="wtp-img">
+                <div class="wtp-details">
+                    <div class="wtp-name">
+                        Vadgaon Water Works
+                    </div>
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">
+                        Serving the rapidly expanding Sinhagad Road and southern suburbs. Recently upgraded under AMRUT 2.0 scheme.
+                    </p>
+                    <div class="wtp-stats">
+                        <div class="stat-item">
+                            <h4>Capacity</h4>
+                            <p>250 MLD + 125 MLD (New)</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Key Areas Served</h4>
+                            <p>Sinhagad Rd, Dhayari, Ambegaon</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Source</h4>
+                            <p>Khadakwasla Backwaters</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Maintenance</h4>
+                            <p>Monthly</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Storage Reservoirs (ESRs) -->
+        <div id="tanks" class="tab-content">
+            <!-- Zone 1 -->
+            <div class="zone-group">
+                <div class="zone-header" onclick="toggleZone(this)">
+                    <div class="zone-title">
+                        <div class="zone-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            Parvati Zone Reservoirs
+                            <div style="font-size: 0.9rem; color: #888; font-weight: normal; margin-top: 2px;">Serves Central Pune</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="zone-body">
+                    <table class="tank-table">
+                        <thead>
+                            <tr>
+                                <th>Tank Name</th>
+                                <th>Location</th>
+                                <th>Capacity (Liters)</th>
+                                <th>Status</th>
+                                <th>Last Maintenance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SNDT Hill Tank</td>
+                                <td>Law College Road</td>
+                                <td>3.5 Million</td>
+                                <td><span class="status-dot"></span>Operational</td>
+                                <td>Jan 15, 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Chaturshringi ESR</td>
+                                <td>Senapati Bapat Rd</td>
+                                <td>2.0 Million</td>
+                                <td><span class="status-dot"></span>Operational</td>
+                                <td>Jan 10, 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Parvati High Level</td>
+                                <td>Parvati Hill</td>
+                                <td>5.0 Million</td>
+                                <td><span class="status-dot status-maintenance"></span>Maintenance</td>
+                                <td>Jan 24, 2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Zone 2 -->
+            <div class="zone-group">
+                <div class="zone-header" onclick="toggleZone(this)">
+                    <div class="zone-title">
+                        <div class="zone-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            Warje & Kothrud Zone
+                            <div style="font-size: 0.9rem; color: #888; font-weight: normal; margin-top: 2px;">Serves Western Suburbs</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="zone-body">
+                    <table class="tank-table">
+                        <thead>
+                            <tr>
+                                <th>Tank Name</th>
+                                <th>Location</th>
+                                <th>Capacity (Liters)</th>
+                                <th>Status</th>
+                                <th>Last Maintenance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Chandani Chowk ESR</td>
+                                <td>Bavdhan</td>
+                                <td>2.8 Million</td>
+                                <td><span class="status-dot"></span>Operational</td>
+                                <td>Jan 12, 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Warje GSR</td>
+                                <td>Warje Malwadi</td>
+                                <td>4.2 Million</td>
+                                <td><span class="status-dot"></span>Operational</td>
+                                <td>Jan 05, 2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Zone 3 -->
+            <div class="zone-group">
+                <div class="zone-header" onclick="toggleZone(this)">
+                    <div class="zone-title">
+                        <div class="zone-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            Hadapsar & East Zone
+                            <div style="font-size: 0.9rem; color: #888; font-weight: normal; margin-top: 2px;">Serves Eastern Pune</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="zone-body">
+                    <table class="tank-table">
+                        <thead>
+                            <tr>
+                                <th>Tank Name</th>
+                                <th>Location</th>
+                                <th>Capacity (Liters)</th>
+                                <th>Status</th>
+                                <th>Last Maintenance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ramtekdi ESR</td>
+                                <td>Hadapsar Ind. Estate</td>
+                                <td>3.0 Million</td>
+                                <td><span class="status-dot"></span>Operational</td>
+                                <td>Jan 18, 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Kharadi GSR</td>
+                                <td>Kharadi Bypass</td>
+                                <td>2.5 Million</td>
+                                <td><span class="status-dot status-maintenance"></span>Cleaning</td>
+                                <td>Today</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </main>
+
+    <script>
+        // Tab Functionality
+        function openTab(tabName) {
+            // Hide all tabs
+            var i, tabContent, tabBtns;
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+                tabContent[i].classList.remove("active");
+            }
+            
+            // Deactivate all buttons
+            tabBtns = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabBtns.length; i++) {
+                tabBtns[i].className = tabBtns[i].className.replace(" active", "");
+            }
+            
+            // Show current tab and activate button
+            document.getElementById(tabName).style.display = "block";
+            setTimeout(() => {
+                document.getElementById(tabName).classList.add("active");
+            }, 10);
+            event.currentTarget.className += " active";
+        }
+
+        // Accordion Functionality
+        function toggleZone(header) {
+            header.classList.toggle("active");
+            var body = header.nextElementSibling;
+            var icon = header.querySelector(".toggle-icon");
+            
+            if (body.style.maxHeight) {
+                body.style.maxHeight = null;
+                body.classList.remove("open");
+                icon.style.transform = "rotate(0deg)";
+            } else {
+                body.style.maxHeight = body.scrollHeight + "px";
+                body.classList.add("open");
+                icon.style.transform = "rotate(180deg)";
+            }
+        }
+    </script>
 
     <%- include('../partials/footer') %>
 </body>

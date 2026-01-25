@@ -271,6 +271,70 @@ body {
     font-size: 1.2rem;
 }
 
+/* Water Tanks & Plants Section */
+.tanks-section {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--bg-color);
+}
+
+.accordion-container {
+    margin-bottom: 30px;
+}
+
+.accordion-item {
+    margin-bottom: 10px;
+    border: 1px solid var(--light-blue);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.accordion-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--secondary-blue);
+    color: var(--white);
+    border: none;
+    text-align: left;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.accordion-btn:hover {
+    background-color: var(--primary-blue);
+}
+
+.accordion-content {
+    display: none;
+    padding: 20px;
+    background-color: var(--white);
+    border-top: 1px solid var(--light-blue);
+}
+
+.tank-image, .plant-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.map-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.map-link:hover {
+    background-color: var(--dark-blue);
+}
+
 /* Footer */
 .main-footer {
     background-color: var(--dark-blue);
@@ -337,5 +401,13 @@ body {
     .logo-container {
         flex-direction: column;
         text-align: center;
+    }
+
+    .accordion-btn {
+        font-size: 1rem;
+        padding: 12px;
+    }
+    .accordion-content {
+        padding: 15px;
     }
 }

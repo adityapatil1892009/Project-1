@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Hadapsar Tank",
+    "capacity": "5 million liters",
+    "maintenance": "Last cleaned: June 2023. Next scheduled: June 2024. Regular chlorination and structural checks.",
+    "image": "/images/tanks/hadapsar.jpg",
+    "location": "Hadapsar, Pune",
+    "area": "Hadapsar and surrounding areas",
+    "lat": 18.5089,
+    "lng": 73.9259
+  },
+  {
+    "name": "Kothrud Tank",
+    "capacity": "3.5 million liters",
+    "maintenance": "Last cleaned: April 2023. Next scheduled: April 2024. Ongoing repairs for pipeline connections.",
+    "image": "/images/tanks/kothrud.jpg",
+    "location": "Kothrud, Pune",
+    "area": "Kothrud and nearby residential zones",
+    "lat": 18.5074,
+    "lng": 73.8077
+  },
+  {
+    "name": "Aundh Tank",
+    "capacity": "4 million liters",
+    "maintenance": "Last cleaned: August 2023. Next scheduled: August 2024. Equipped with automated monitoring.",
+    "image": "/images/tanks/aundh.jpg",
+    "location": "Aundh, Pune",
+    "area": "Aundh and IT park areas",
+    "lat": 18.5606,
+    "lng": 73.8126
+  }
+]
