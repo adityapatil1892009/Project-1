@@ -21,7 +21,8 @@
         "zone": "Zone C",
         "status": "Interrupted",
         "timing": "7:00 AM - 9:00 AM",
-        "duration": "2 hours"
+        "duration": "2 hours",
+        "message": "Service currently interrupted"
     },
     "Deccan": {
         "zone": "Zone A",
@@ -38,7 +39,7 @@
     "Baner": {
         "zone": "Zone B",
         "status": "Active",
-        "timing": "7:00 AM - 9:00 AM",
+        "timing": "7:00 AM - 5:00 AM",
         "duration": "2 hours"
     },
     "Kondhwa": {
@@ -48,7 +49,7 @@
         "duration": "2.5 hours"
     },
     "Wakad": {
-        "zone": "Zone B",
+        "zone": "Zone E",
         "status": "Scheduled",
         "timing": "6:00 AM - 8:00 AM",
         "duration": "2 hours"
