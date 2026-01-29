@@ -5,68 +5,120 @@
     <%- include('../partials/header') %>
     <%- include('../partials/navbar') %>
 
-    <main class="container" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto;">
+    <main class="intro-page">
         <!-- Hero Section -->
-        <div class="intro-header" style="text-align: center; margin-bottom: 60px; background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center; padding: 100px 20px; border-radius: 12px; color: white;">
-            <h1 style="color: white; margin-bottom: 20px; font-size: 3.5rem; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Smart Municipal Water Supply Monitoring</h1>
-            <p style="font-size: 1.4rem; color: #f0f0f0; max-width: 800px; margin: 0 auto; line-height: 1.6; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
-                A digital platform designed to bridge the communication gap between the municipal corporation and citizens, ensuring transparency and reliability in water services.
-            </p>
-        </div>
-
-        <!-- Features Grid -->
-        <div class="feature-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-bottom: 80px;">
-            <!-- Feature 1 -->
-            <div class="feature-card" style="background: white; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border-top: 5px solid var(--secondary-blue);">
-                <div style="width: 80px; height: 80px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;">
-                    <i class="fas fa-calendar-alt" style="font-size: 2.5rem; color: var(--primary-blue);"></i>
-                </div>
-                <h3 style="color: var(--dark-blue); margin-bottom: 15px; font-size: 1.4rem;">Area-wise Schedules</h3>
-                <p style="color: #666;">View centralized, exact water supply timings for your specific area. Plan your day with confidence knowing exactly when water will be available.</p>
-            </div>
-
-            <!-- Feature 2 -->
-            <div class="feature-card" style="background: white; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border-top: 5px solid #e63946;">
-                <div style="width: 80px; height: 80px; background: #ffe5e7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: #e63946;"></i>
-                </div>
-                <h3 style="color: var(--dark-blue); margin-bottom: 15px; font-size: 1.4rem;">Real-time Notices</h3>
-                <p style="color: #666;">Stay informed with instant alerts about water cuts, maintenance work, and service interruptions in your locality.</p>
-            </div>
-
-            <!-- Feature 3 -->
-            <div class="feature-card" style="background: white; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border-top: 5px solid var(--primary-blue);">
-                <div style="width: 80px; height: 80px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;">
-                    <i class="fas fa-tint" style="font-size: 2.5rem; color: var(--primary-blue);"></i>
-                </div>
-                <h3 style="color: var(--dark-blue); margin-bottom: 15px; font-size: 1.4rem;">Live Quality Status</h3>
-                <p style="color: #666;">Access real-time data on water quality to ensure the health and safety of your family. Transparency is our priority.</p>
-            </div>
-        </div>
-
-        <!-- Info Section -->
-        <div class="info-section" style="background: linear-gradient(135deg, var(--white) 0%, var(--light-blue) 100%); padding: 50px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 50px; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 300px;">
-                <h2 style="color: var(--dark-blue); margin-bottom: 20px; font-size: 2rem;">Empowering Citizens</h2>
-                <p style="margin-bottom: 20px; font-size: 1.1rem; color: #444;">
-                    In many cities, water is supplied at different times in different areas, but there is no centralized system to inform citizens. This lack of information disrupts daily life.
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="hero-badge">⭐ Trusted by 500K+ Citizens</div>
+                <h1 class="hero-title">Never Wait for Water Again</h1>
+                <p class="hero-subtitle">
+                    Precise schedules, real-time alerts, and quality monitoring—all in one platform.
                 </p>
-                <p style="margin-bottom: 20px; font-size: 1.1rem; color: #444;">
-                    <strong>Our solution changes that.</strong> By providing a single source of truth for all water-related information, we help you plan better and stay safe.
-                </p>
-                <div style="display: flex; gap: 15px; margin-top: 30px;">
-                    <div style="background: rgba(255,255,255,0.6); padding: 10px 20px; border-radius: 50px; color: var(--primary-blue); font-weight: 600;">
-                        <i class="fas fa-check-circle"></i> Conservation
-                    </div>
-                    <div style="background: rgba(255,255,255,0.6); padding: 10px 20px; border-radius: 50px; color: var(--primary-blue); font-weight: 600;">
-                        <i class="fas fa-check-circle"></i> Public Health
+                <div class="hero-ctas">
+                    <a href="/schedule" class="cta-btn cta-primary">
+                        <span class="cta-icon">📅</span>
+                        Check Schedule
+                    </a>
+                    <a href="/services/tanks" class="cta-btn cta-secondary">
+                        <span class="cta-icon">💧</span>
+                        Water Quality
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <div class="card-header">Water Available</div>
+                    <div class="card-time">8:00 AM - 12:00 PM</div>
+                </div>
+                <div class="floating-card card-2">
+                    <div class="card-header">Quality Status</div>
+                    <div class="card-status">
+                        <span class="status-badge status-good">✓ Good</span>
                     </div>
                 </div>
+                <div class="floating-card card-3">
+                    <div class="card-header">Updates Today</div>
+                    <div class="card-count">3 Alerts</div>
+                </div>
             </div>
-            <div style="flex: 1; min-width: 300px;">
-                <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80" alt="Smart Water Management" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); object-fit: cover; height: 350px;">
+        </section>
+
+        <!-- Quick Benefits -->
+        <section class="benefits-section">
+            <div class="benefits-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Precise Schedules</h3>
+                    <p>Know exactly when water reaches your area.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Instant Alerts</h3>
+                    <p>Real-time notifications on cuts and changes.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Quality Data</h3>
+                    <p>Live water quality and test reports.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <h3>Direct Support</h3>
+                    <p>Report issues and track resolution.</p>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Problem/Solution Combined -->
+        <section class="problem-solution">
+            <div class="ps-grid">
+                <div class="ps-item ps-problem">
+                    <div class="ps-icon">⚠️</div>
+                    <h3>The Challenge</h3>
+                    <p>No centralized water supply info. Families waste time waiting.</p>
+                </div>
+
+                <div class="ps-item ps-solution">
+                    <div class="ps-icon">✨</div>
+                    <h3>Our Answer</h3>
+                    <p>One unified platform for transparent, real-time water information.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section with Stats -->
+        <section class="final-cta">
+            <h2>Take Control Now</h2>
+            <div class="stats-showcase" style="margin: 20px 0;">
+                <div class="stat-box">
+                    <div class="stat-number">500K+</div>
+                    <div class="stat-desc">Citizens</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-desc">Live</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-desc">Accurate</div>
+                </div>
+            </div>
+            <div class="final-buttons">
+                <a href="/schedule" class="cta-btn cta-primary cta-large">Get Started</a>
+                <a href="/about/objectives" class="cta-btn cta-secondary cta-large">Learn More</a>
+            </div>
+        </section>
     </main>
 
     <%- include('../partials/footer') %>

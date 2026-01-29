@@ -5,36 +5,133 @@
     <%- include('../partials/header') %>
     <%- include('../partials/navbar') %>
 
-    <main class="container" style="padding: 40px 20px; max-width: 800px; margin: 0 auto;">
-        <h2 style="color: var(--primary-blue); border-bottom: 2px solid var(--secondary-blue); padding-bottom: 10px; margin-bottom: 20px;"><%= title %></h2>
-        
-        <div class="content-box" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
-            <p style="margin-bottom: 20px;">Please use the form below to register your complaint regarding water supply, leakage, or quality issues.</p>
-            
-            <form>
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Consumer Number</label>
-                    <input type="text" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+    <main class="container" style="padding: 40px 20px; max-width: 900px; margin: 0 auto;">
+        <!-- Page Header -->
+        <div style="margin-bottom: 40px; text-align: center;">
+            <h2 style="color: var(--primary-blue); font-size: 2.2em; margin-bottom: 10px;">Report an Issue</h2>
+            <p style="color: #666; font-size: 1.1em;">We're here to help. Submit your complaint and we'll prioritize resolution.</p>
+        </div>
+
+        <!-- Support Info Bar -->
+        <div style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); padding: 20px; border-radius: 8px; margin-bottom: 30px; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+            <div style="text-align: center;">
+                <div style="font-size: 1.5em; margin-bottom: 5px;">📞</div>
+                <strong style="display: block; color: var(--primary-blue);">24/7 Support</strong>
+                <small>Call: 1800-WATER-101</small>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 1.5em; margin-bottom: 5px;">⚡</div>
+                <strong style="display: block; color: var(--primary-blue);">Quick Response</strong>
+                <small>Avg 2 min response time</small>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 1.5em; margin-bottom: 5px;">✓</div>
+                <strong style="display: block; color: var(--primary-blue);">Real-time Tracking</strong>
+                <small>Monitor your complaint status</small>
+            </div>
+        </div>
+
+        <!-- Main Form Section -->
+        <div class="content-box" style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.08);">
+            <form id="complaintForm">
+                <!-- Personal Information -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom: 15px; font-size: 1.1em;">📋 Your Information</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Consumer Number *</label>
+                            <input type="text" placeholder="e.g., WS123456" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Phone Number *</label>
+                            <input type="tel" placeholder="e.g., 98765-43210" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
+                        </div>
+                    </div>
                 </div>
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Issue Type</label>
-                    <select style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                        <option>No Water Supply</option>
-                        <option>Low Pressure</option>
-                        <option>Contaminated Water</option>
-                        <option>Pipeline Leakage</option>
-                        <option>Other</option>
-                    </select>
+
+                <!-- Issue Details -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom: 15px; font-size: 1.1em;">⚠️ Issue Details</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Issue Type *</label>
+                        <select required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
+                            <option value="">-- Select Issue Type --</option>
+                            <option value="no-water">❌ No Water Supply</option>
+                            <option value="low-pressure">📉 Low Pressure</option>
+                            <option value="contaminated">🚫 Contaminated Water</option>
+                            <option value="leakage">💧 Pipeline Leakage</option>
+                            <option value="billing">💰 Billing Issue</option>
+                            <option value="meter">📊 Meter Problem</option>
+                            <option value="other">📝 Other</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Severity Level *</label>
+                        <select required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
+                            <option value="">-- Select Severity --</option>
+                            <option value="low">🟢 Low - Can Wait</option>
+                            <option value="medium">🟡 Medium - Urgent</option>
+                            <option value="high">🔴 High - Critical</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Description *</label>
+                        <textarea rows="5" placeholder="Please describe your issue in detail. Include location, when it started, and any photos/evidence if available." required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em; resize: vertical;"></textarea>
+                    </div>
                 </div>
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Description</label>
-                    <textarea rows="4" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+
+                <!-- Additional Options -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom: 15px; font-size: 1.1em;">📸 Attachments (Optional)</h3>
+                    <div style="border: 2px dashed #2196F3; padding: 20px; border-radius: 6px; text-align: center; cursor: pointer; background: #f5f5f5;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">📷</div>
+                        <p style="margin: 0; color: #666;">Click to upload photos or documents</p>
+                        <small style="color: #999;">JPG, PNG, PDF up to 5MB each</small>
+                        <input type="file" multiple style="display: none;">
+                    </div>
                 </div>
-                <button type="button" onclick="alert('Complaint registered successfully! Reference ID: CMP12345')" style="padding: 12px 20px; background: var(--primary-blue); color: white; border: none; border-radius: 4px; cursor: pointer;">Register Complaint</button>
+
+                <!-- Consent & Submit -->
+                <div style="margin-bottom: 20px;">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" required style="width: 18px; height: 18px;">
+                        <span>I authorize the municipality to contact me regarding this complaint</span>
+                    </label>
+                </div>
+
+                <button type="button" onclick="submitComplaint()" style="width: 100%; padding: 14px; background: var(--primary-blue); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: 600; transition: background 0.3s;">Register Complaint</button>
             </form>
+        </div>
+
+        <!-- Recent Complaints Info -->
+        <div style="margin-top: 40px; padding: 20px; background: #f9f9f9; border-left: 4px solid var(--primary-blue); border-radius: 6px;">
+            <h4 style="margin-top: 0; color: var(--primary-blue);">✓ What Happens Next?</h4>
+            <ol style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                <li>Your complaint is registered with a unique Reference ID</li>
+                <li>Our team reviews and prioritizes based on severity</li>
+                <li>You receive instant SMS/Email confirmation</li>
+                <li>Real-time status updates on your complaint page</li>
+                <li>Direct communication with assigned technician</li>
+            </ol>
         </div>
     </main>
 
     <%- include('../partials/footer') %>
+
+    <script>
+        function submitComplaint() {
+            const form = document.getElementById('complaintForm');
+            if (form.checkValidity()) {
+                const referenceId = 'CMP' + Math.random().toString(9).substr(2, 9).toUpperCase();
+                alert(`✓ Complaint Registered Successfully!\n\nReference ID: ${referenceId}\n\nYou will receive updates via SMS and Email.`);
+                form.reset();
+            } else {
+                alert('Please fill all required fields marked with *');
+            }
+        }
+    </script>
 </body>
 </html>
