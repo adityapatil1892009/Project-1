@@ -11,79 +11,79 @@
             <p style="color: #a0aec0; font-size: 13px; margin: 0;">View water supply timings for different areas of Pune</p>
         </div>
         
-        <div style="margin-bottom: 30px;">
-            <input type="text" id="searchInput" placeholder="Search by area or zone..." style="width: 100%; padding: 11px 16px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 14px; font-family: inherit; box-sizing: border-box;">
+        <div class="edge-bleed" style="margin-bottom: 30px;">
+            <input class="full-width-input" type="text" id="searchInput" placeholder="Search by area or zone..." style="padding: 11px 16px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 14px; font-family: inherit;">
         </div>
 
-        <div class="schedule-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; auto-rows: max-content;">
-            <% 
-            const cityOrder = ["Shivajinagar", "Kothrud", "Hadapsar", "Viman Nagar", "Deccan", "Aundh", "Baner", "Kondhwa", "Wakad", "Pimpri", "Chinchwad", "Hinjewadi", "Karve Nagar", "Warje", "Sinhagad Road"];
-            const orderedSchedule = {};
-            cityOrder.forEach(city => {
-                if (schedule && schedule[city]) {
-                    orderedSchedule[city] = schedule[city];
-                }
-            });
-            %>
-            <% if (schedule) { %>
-                <% Object.entries(orderedSchedule).forEach(([area, details]) => { 
-                    const status = details.status || 'Active';
-                    const timing = details.timing || '';
-                    const duration = details.duration || '';
-                    const zone = details.zone || '';
-                    let statusColor = '#10b981';
-                    let statusBg = '#ecfdf5';
-                    if (status === 'Interrupted') {
-                        statusColor = '#ef4444';
-                        statusBg = '#fef2f2';
-                    } else if (status === 'Scheduled') {
-                        statusColor = '#3b82f6';
-                        statusBg = '#eff6ff';
-                    }
-                %>
-                    <div style="background: white; border-radius: 6px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-left: 3px solid #5a8fc4; display: flex; flex-direction: column; height: 100%;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
-                            <div>
-                                <h3 style="color: #2d3748; margin: 0 0 4px 0; font-size: 15px; font-weight: 600;"><%= area %></h3>
-                                <p style="color: #a0aec0; margin: 0; font-size: 12px;"><%= zone %></p>
-                            </div>
-                            <span style="background-color: <%= statusBg %>; color: <%= statusColor %>; padding: 3px 9px; border-radius: 3px; font-size: 10px; font-weight: 600; white-space: nowrap; margin-left: 8px; flex-shrink: 0;">
-                                <%= status %>
-                            </span>
-                        </div>
-                        
-                        <div style="display: flex; align-items: flex-start; margin-bottom: 11px; padding-bottom: 11px; border-bottom: 1px solid #f7fafc;">
-                            <span style="color: #5a8fc4; margin-right: 11px; font-size: 16px; min-width: 20px; flex-shrink: 0;">⏰</span>
-                            <div style="flex: 1;">
-                                <p style="margin: 0; font-size: 11px; color: #cbd5e0; font-weight: 500;">Timing</p>
-                                <p style="margin: 0; font-size: 13px; font-weight: 600; color: #2d3748;"><%= timing %></p>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; align-items: flex-start; flex-grow: 1;">
-                            <span style="color: #5a8fc4; margin-right: 11px; font-size: 16px; min-width: 20px; flex-shrink: 0;">📋</span>
-                            <div style="flex: 1;">
-                                <p style="margin: 0; font-size: 11px; color: #cbd5e0; font-weight: 500;">Duration</p>
-                                <p style="margin: 0; font-size: 13px; font-weight: 600; color: #2d3748;"><%= duration %></p>
-                            </div>
-                        </div>
-
-                        <% if (details.message) { %>
-                            <div style="margin-top: 11px; padding-top: 11px; border-top: 1px solid #f7fafc;">
-                                <p style="margin: 0; font-size: 11px; color: #f59e0b; display: flex; align-items: center;">
-                                    <span style="margin-right: 6px;">⚠</span>
-                                    <%= details.message %>
-                                </p>
-                            </div>
-                        <% } %>
+        <div class="schedule-container">
+             <% 
+             const cityOrder = ["Shivajinagar", "Kothrud", "Hadapsar", "Viman Nagar", "Deccan", "Aundh", "Baner", "Kondhwa", "Wakad", "Pimpri", "Chinchwad", "Hinjewadi", "Karve Nagar", "Warje", "Sinhagad Road"];
+             const orderedSchedule = {};
+             cityOrder.forEach(city => {
+                 if (schedule && schedule[city]) {
+                     orderedSchedule[city] = schedule[city];
+                 }
+             });
+             %>
+             <% if (schedule) { %>
+                 <% Object.entries(orderedSchedule).forEach(([area, details]) => { 
+                     const status = details.status || 'Active';
+                     const timing = details.timing || '';
+                     const duration = details.duration || '';
+                     const zone = details.zone || '';
+                     let statusColor = '#10b981';
+                     let statusBg = '#ecfdf5';
+                     if (status === 'Interrupted') {
+                         statusColor = '#ef4444';
+                         statusBg = '#fef2f2';
+                     } else if (status === 'Scheduled') {
+                         statusColor = '#3b82f6';
+                         statusBg = '#eff6ff';
+                     }
+                 %>
+                    <div class="schedule-card">
+                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+                             <div>
+                                 <h3 style="color: #2d3748; margin: 0 0 4px 0; font-size: 15px; font-weight: 600;"><%= area %></h3>
+                                 <p style="color: #a0aec0; margin: 0; font-size: 12px;"><%= zone %></p>
+                             </div>
+                             <span style="background-color: <%= statusBg %>; color: <%= statusColor %>; padding: 3px 9px; border-radius: 3px; font-size: 10px; font-weight: 600; white-space: nowrap; margin-left: 8px; flex-shrink: 0;">
+                                 <%= status %>
+                             </span>
+                         </div>
+                         
+                         <div style="display: flex; align-items: flex-start; margin-bottom: 11px; padding-bottom: 11px; border-bottom: 1px solid #f7fafc;">
+                             <span style="color: #5a8fc4; margin-right: 11px; font-size: 16px; min-width: 20px; flex-shrink: 0;">⏰</span>
+                             <div style="flex: 1;">
+                                 <p style="margin: 0; font-size: 11px; color: #cbd5e0; font-weight: 500;">Timing</p>
+                                 <p style="margin: 0; font-size: 13px; font-weight: 600; color: #2d3748;"><%= timing %></p>
+                             </div>
+                         </div>
+                         
+                         <div style="display: flex; align-items: flex-start; flex-grow: 1;">
+                             <span style="color: #5a8fc4; margin-right: 11px; font-size: 16px; min-width: 20px; flex-shrink: 0;">📋</span>
+                             <div style="flex: 1;">
+                                 <p style="margin: 0; font-size: 11px; color: #cbd5e0; font-weight: 500;">Duration</p>
+                                 <p style="margin: 0; font-size: 13px; font-weight: 600; color: #2d3748;"><%= duration %></p>
+                             </div>
+                         </div>
+ 
+                         <% if (details.message) { %>
+                             <div style="margin-top: 11px; padding-top: 11px; border-top: 1px solid #f7fafc;">
+                                 <p style="margin: 0; font-size: 11px; color: #f59e0b; display: flex; align-items: center;">
+                                     <span style="margin-right: 6px;">⚠</span>
+                                     <%= details.message %>
+                                 </p>
+                             </div>
+                         <% } %>
                     </div>
-                <% }); %>
-            <% } else { %>
-                <div style="grid-column: 1 / -1; padding: 60px 40px; text-align: center; color: #a0aec0;">
-                    <p style="font-size: 16px;">No schedule information available.</p>
-                </div>
-            <% } %>
-        </div>
+                 <% }); %>
+             <% } else { %>
+                 <div style="grid-column: 1 / -1; padding: 60px 40px; text-align: center; color: #a0aec0;">
+                     <p style="font-size: 16px;">No schedule information available.</p>
+                 </div>
+             <% } %>
+         </div>
     </main>
 
     <%- include('partials/footer') %>
