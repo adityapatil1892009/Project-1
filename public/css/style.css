@@ -61,7 +61,15 @@ body {
     background-color: var(--dark-blue);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 2000; /* keep navbar above map controls */
+}
+
+/* Leaflet map stacking: keep map under the navbar */
+.leaflet-container {
+    z-index: 100;
+}
+.leaflet-control-container {
+    z-index: 150;
 }
 
 .nav-links {

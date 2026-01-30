@@ -7,7 +7,6 @@
 
     <main class="container" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
         <h2 style="color: var(--primary-blue); border-bottom: 2px solid var(--secondary-blue); padding-bottom: 10px; margin-bottom: 20px;"><%= title %></h2>
-        
         <div class="content-box">
             <p>We maintain a pipeline network of over 500 km across the city.</p>
             <h3>Key Features</h3>
@@ -16,6 +15,27 @@
                 <li>Real-time leak detection sensors.</li>
                 <li>Automated valves.</li>
             </ul>
+        </div>
+
+        <div class="content-box" style="margin-top:20px;">
+            <h3 style="margin-bottom:10px;">Pipeline Network Map (Interactive)</h3>
+            <p style="margin-bottom:8px;">Toggle layers, click markers for details. Faults and construction areas are highlighted with estimated completion time.</p>
+
+                        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" crossorigin=""/>
+
+                        <style>
+                                #pipeline-map { height: 520px; width: 100%; border: 1px solid var(--secondary-blue); }
+                                .map-legend { background:#fff; padding:8px; border-radius:4px; box-shadow:0 1px 4px rgba(0,0,0,0.2); }
+                        </style>
+
+                        <div id="pipeline-map"></div>
+                        <div style="margin-top:10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+                                <div id="map-legend" class="map-legend">Legend: <span style="color:green">●</span> Destination <span style="margin-left:8px;color:blue">●</span> Plant <span style="margin-left:8px;color:teal">●</span> Tank <span style="margin-left:8px;color:purple">●</span> Cleaning Center <span style="margin-left:8px;color:gold">●</span> Process Center <span style="margin-left:8px;color:orangered">●</span> Fault/Construction</div>
+                                <div style="margin-left:auto">Data last updated: <span id="map-last-updated">--</span></div>
+                        </div>
+
+                        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" crossorigin=""></script>
+                        <script src="/js/pipeline-map.js"></script>
         </div>
     </main>
 

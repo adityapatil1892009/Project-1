@@ -1,0 +1,28 @@
+{
+  "lastUpdated": "2026-01-30T08:00:00Z",
+  "center": { "lat": 18.5204, "lng": 73.8567, "zoom": 12 },
+  "destinations": [
+    { "id": "dest-1", "name": "Pune North Zone", "lat": 18.5696, "lng": 73.8856, "notes": "Residential areas" },
+    { "id": "dest-2", "name": "Pune East Market", "lat": 18.5200, "lng": 73.8730, "notes": "Commercial hub" }
+  ],
+  "plants": [
+    { "id": "plant-1", "name": "Khadakwasla Treatment Plant", "lat": 18.4546, "lng": 73.8045, "capacity_mld": 150 },
+    { "id": "plant-2", "name": "Mula-Mutha Plant", "lat": 18.5200, "lng": 73.8600, "capacity_mld": 90 }
+  ],
+  "tanks": [
+    { "id": "tank-1", "name": "Tank A - Shivaji Nagar", "lat": 18.5196, "lng": 73.8415, "volume_m3": 6000 },
+    { "id": "tank-2", "name": "Tank B - Kothrud", "lat": 18.5065, "lng": 73.8103, "volume_m3": 4500 },
+    { "id": "tank-3", "name": "Tank C - Hadapsar", "lat": 18.5123, "lng": 73.9236, "volume_m3": 3200 }
+  ],
+  "cleaningCenters": [
+    { "id": "clean-1", "name": "Cleaning Center - Wanowrie", "lat": 18.4922, "lng": 73.8745, "notes": "Tank cleaning and disinfection" },
+    { "id": "clean-2", "name": "Cleaning Center - Camp", "lat": 18.5246, "lng": 73.8519, "notes": "Routine maintenance" }
+  ],
+  "processCenters": [
+    { "id": "proc-1", "name": "Process Center - Pimpri", "lat": 18.6298, "lng": 73.7997, "notes": "Supply coordination" }
+  ],
+  "issues": [
+    { "id": "fault-1", "type": "leak", "title": "Leak - North Shivaji Rd", "lat": 18.5250, "lng": 73.8430, "severity": "moderate", "status": "repair", "eta_iso": "2026-02-02T16:00:00Z", "notes": "Crew on site; temporary diversion active" },
+    { "id": "constr-1", "type": "construction", "title": "Pipeline upgrade - East Hadapsar", "lat": 18.5100, "lng": 73.9220, "severity": "low", "status": "construction", "eta_iso": "2026-02-10T12:00:00Z", "notes": "Night work planned" }
+  ]
+}

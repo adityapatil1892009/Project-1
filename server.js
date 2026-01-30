@@ -69,7 +69,9 @@ app.get('/services/tanks/cleaning-schedule', (req, res) => {
 });
 
 app.get('/services/pipeline', (req, res) => {
-    res.render('services/pipeline', { title: 'Pipeline System' });
+    // Pass Google Maps API key from environment if available
+    const googleMapsKey = process.env.GOOGLE_MAPS_API_KEY || '';
+    res.render('services/pipeline', { title: 'Pipeline System', googleMapsKey });
 });
 
 app.get('/services/maintenance', (req, res) => {
