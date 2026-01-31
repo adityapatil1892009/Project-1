@@ -5,97 +5,475 @@
     <%- include('partials/header') %>
     <%- include('partials/navbar') %>
 
-    <main class="container" style="padding: 40px 20px; max-width: 1400px; margin: 0 auto;">
-        <div style="margin-bottom: 30px;">
-            <h1 style="color: #4a5568; margin: 0 0 8px 0; font-size: 26px; font-weight: 600;">Water Supply Schedules</h1>
-            <p style="color: #a0aec0; font-size: 13px; margin: 0;">View water supply timings for different areas of Pune</p>
-        </div>
-        
-        <div class="edge-bleed" style="margin-bottom: 30px;">
-            <input class="full-width-input" type="text" id="searchInput" placeholder="Search by area or zone..." style="padding: 11px 16px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 14px; font-family: inherit;">
+    <style>
+        /* Schedule Page Styling */
+        .schedule-page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .schedule-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .schedule-header h1 {
+            color: var(--dark-blue);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .schedule-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Day Switcher Tabs */
+        .day-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            padding: 0 10px;
+        }
+
+        .day-btn {
+            padding: 12px 24px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .day-btn:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .day-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 8px 20px rgba(52, 144, 220, 0.3);
+        }
+
+        /* Schedule Grid */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Schedule Card - Glassmorphism */
+        .schedule-card {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 28px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .schedule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .schedule-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .schedule-card:hover::before {
+            left: 100%;
+        }
+
+        /* Live Highlight */
+        .schedule-card.live-now {
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid rgba(34, 197, 94, 0.5);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3), 0 8px 32px rgba(0, 0, 0, 0.08);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(34, 197, 94, 0.3), 0 8px 32px rgba(0, 0, 0, 0.08);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(34, 197, 94, 0.5), 0 8px 32px rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        /* Card Header - Area Name */
+        .card-area-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-zone {
+            font-size: 0.85rem;
+            color: #888;
+            font-weight: 500;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Card Time Slot */
+        .card-time-slot {
+            background: rgba(52, 144, 220, 0.1);
+            border-left: 4px solid var(--primary-blue);
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-time {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .card-timing {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-top: 4px;
+        }
+
+        /* Card Duration */
+        .card-duration {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-duration-label {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: 600;
+        }
+
+        .card-duration-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+        }
+
+        .status-badge.completed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-badge.live-badge {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .status-badge.upcoming {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .status-badge.interrupted {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Message Alert */
+        .card-message {
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid #ef4444;
+            border-radius: 6px;
+            color: #dc2626;
+            font-size: 0.85rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 40px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-state-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .schedule-page-container {
+                padding: 30px 15px;
+            }
+
+            .schedule-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .schedule-header p {
+                font-size: 0.95rem;
+            }
+
+            .day-switcher {
+                gap: 10px;
+                padding: 0 5px;
+            }
+
+            .day-btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+                min-width: 80px;
+            }
+
+            .schedule-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .schedule-card {
+                padding: 20px;
+            }
+
+            .card-area-name {
+                font-size: 1.2rem;
+            }
+
+            .card-timing {
+                font-size: 1.1rem;
+            }
+
+            .card-time-slot {
+                padding: 12px 14px;
+            }
+        }
+    </style>
+
+    <main class="schedule-page-container">
+        <!-- Header -->
+        <div class="schedule-header">
+            <h1 data-i18n="water_supply_schedules">Water Supply Schedules</h1>
+            <p data-i18n="schedule_description">View the daily water supply schedule for your area</p>
         </div>
 
-        <div class="schedule-container">
-             <% 
-             const cityOrder = ["Shivajinagar", "Kothrud", "Hadapsar", "Viman Nagar", "Deccan", "Aundh", "Baner", "Kondhwa", "Wakad", "Pimpri", "Chinchwad", "Hinjewadi", "Karve Nagar", "Warje", "Sinhagad Road"];
-             const orderedSchedule = {};
-             cityOrder.forEach(city => {
-                 if (schedule && schedule[city]) {
-                     orderedSchedule[city] = schedule[city];
-                 }
-             });
-             %>
-             <% if (schedule) { %>
-                 <% Object.entries(orderedSchedule).forEach(([area, details]) => { 
-                     const status = details.status || 'Active';
-                     const timing = details.timing || '';
-                     const duration = details.duration || '';
-                     const zone = details.zone || '';
-                     let statusColor = '#10b981';
-                     let statusBg = '#ecfdf5';
-                     if (status === 'Interrupted') {
-                         statusColor = '#ef4444';
-                         statusBg = '#fef2f2';
-                     } else if (status === 'Scheduled') {
-                         statusColor = '#3b82f6';
-                         statusBg = '#eff6ff';
-                     }
-                 %>
-                    <div class="schedule-card">
-                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
-                             <div>
-                                 <h3 style="color: #2d3748; margin: 0 0 4px 0; font-size: 15px; font-weight: 600;"><%= area %></h3>
-                                 <p style="color: #a0aec0; margin: 0; font-size: 12px;"><%= zone %></p>
-                             </div>
-                             <span style="background-color: <%= statusBg %>; color: <%= statusColor %>; padding: 3px 9px; border-radius: 3px; font-size: 10px; font-weight: 600; white-space: nowrap; margin-left: 8px; flex-shrink: 0;">
-                                 <%= status %>
-                             </span>
-                         </div>
-                         
-                         <div style="display: flex; align-items: flex-start; margin-bottom: 11px; padding-bottom: 11px; border-bottom: 1px solid #f7fafc;">
-                             <span style="color: #5a8fc4; margin-right: 11px; font-size: 16px; min-width: 20px; flex-shrink: 0;">⏰</span>
-                             <div style="flex: 1;">
-                                 <p style="margin: 0; font-size: 11px; color: #cbd5e0; font-weight: 500;">Timing</p>
-                                 <p style="margin: 0; font-size: 13px; font-weight: 600; color: #2d3748;"><%= timing %></p>
-                             </div>
-                         </div>
-                         
-                         <div style="display: flex; align-items: flex-start; flex-grow: 1;">
-                             <span style="color: #5a8fc4; margin-right: 11px; font-size: 16px; min-width: 20px; flex-shrink: 0;">📋</span>
-                             <div style="flex: 1;">
-                                 <p style="margin: 0; font-size: 11px; color: #cbd5e0; font-weight: 500;">Duration</p>
-                                 <p style="margin: 0; font-size: 13px; font-weight: 600; color: #2d3748;"><%= duration %></p>
-                             </div>
-                         </div>
- 
-                         <% if (details.message) { %>
-                             <div style="margin-top: 11px; padding-top: 11px; border-top: 1px solid #f7fafc;">
-                                 <p style="margin: 0; font-size: 11px; color: #f59e0b; display: flex; align-items: center;">
-                                     <span style="margin-right: 6px;">⚠</span>
-                                     <%= details.message %>
-                                 </p>
-                             </div>
-                         <% } %>
+        <!-- Day Switcher -->
+        <div class="day-switcher">
+            <button class="day-btn active" onclick="switchDay('Monday')" data-day="Monday" data-i18n="monday">Monday</button>
+            <button class="day-btn" onclick="switchDay('Tuesday')" data-day="Tuesday" data-i18n="tuesday">Tuesday</button>
+            <button class="day-btn" onclick="switchDay('Wednesday')" data-day="Wednesday" data-i18n="wednesday">Wednesday</button>
+            <button class="day-btn" onclick="switchDay('Thursday')" data-day="Thursday" data-i18n="thursday">Thursday</button>
+            <button class="day-btn" onclick="switchDay('Friday')" data-day="Friday" data-i18n="friday">Friday</button>
+            <button class="day-btn" onclick="switchDay('Saturday')" data-day="Saturday" data-i18n="saturday">Saturday</button>
+            <button class="day-btn" onclick="switchDay('Sunday')" data-day="Sunday" data-i18n="sunday">Sunday</button>
+        </div>
+
+        <!-- Schedule Grid -->
+        <div class="schedule-grid" id="scheduleGrid">
+            <% 
+            const cityOrder = ["Shivajinagar", "Kothrud", "Hadapsar", "Viman Nagar", "Deccan", "Aundh", "Baner", "Kondhwa", "Wakad", "Pimpri", "Chinchwad", "Hinjewadi", "Karve Nagar", "Warje", "Sinhagad Road"];
+            const orderedSchedule = {};
+            cityOrder.forEach(city => {
+                if (schedule && schedule[city]) {
+                    orderedSchedule[city] = schedule[city];
+                }
+            });
+            %>
+            <% if (schedule) { %>
+                <% Object.entries(orderedSchedule).forEach(([area, details]) => { 
+                    const status = details.status || 'Active';
+                    let statusClass = status === 'Active' ? 'completed' : status === 'Interrupted' ? 'interrupted' : 'upcoming';
+                    let statusText = status === 'Active' ? 'Active' : status === 'Interrupted' ? 'Interrupted' : 'Scheduled';
+                %>
+                <div class="schedule-card" data-area="<%= area %>" data-day="Monday">
+                    <div class="card-area-name"><%= area %></div>
+                    <div class="card-zone"><%= details.zone || 'Zone' %></div>
+                    
+                    <div class="card-time-slot">
+                        <div class="card-time" data-i18n="time">Time</div>
+                        <div class="card-timing"><%= details.timing || 'N/A' %></div>
                     </div>
-                 <% }); %>
-             <% } else { %>
-                 <div style="grid-column: 1 / -1; padding: 60px 40px; text-align: center; color: #a0aec0;">
-                     <p style="font-size: 16px;">No schedule information available.</p>
-                 </div>
-             <% } %>
-         </div>
+                    
+                    <div class="card-duration">
+                        <span class="card-duration-label" data-i18n="duration">Duration:</span>
+                        <span class="card-duration-value"><%= details.duration || 'N/A' %></span>
+                    </div>
+
+                    <% if (details.message) { %>
+                        <div class="card-message">
+                            <span>⚠️</span>
+                            <%= details.message %>
+                        </div>
+                    <% } %>
+                    
+                    <div class="status-badge <%= statusClass %>" data-i18n="status_<%= statusClass %>"><%= statusText %></div>
+                </div>
+                <% }); %>
+            <% } else { %>
+                <div class="empty-state">
+                    <div class="empty-state-icon">📅</div>
+                    <div class="empty-state-text" data-i18n="no_schedule">No schedule information available</div>
+                </div>
+            <% } %>
+        </div>
     </main>
 
     <%- include('partials/footer') %>
-    
+
+    <script src="/js/i18n.js"></script>
     <script>
-        document.getElementById('searchInput').addEventListener('keyup', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.schedule-container > div');
-            cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(searchTerm) ? 'block' : 'none';
+        // Get current time and highlight live session
+        function highlightLiveSession() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTimeInMinutes = currentHour * 60 + currentMinute;
+
+            document.querySelectorAll('.schedule-card').forEach(card => {
+                card.classList.remove('live-now');
+                const timingText = card.querySelector('.card-timing').textContent.trim();
+                const timeParts = timingText.split(' - ');
+                
+                if (timeParts.length === 2) {
+                    const [startStr, endStr] = timeParts;
+                    const startTime = parseTime(startStr);
+                    const endTime = parseTime(endStr);
+                    
+                    // Check if current time is within this session
+                    if (startTime <= currentTimeInMinutes && currentTimeInMinutes <= endTime) {
+                        card.classList.add('live-now');
+                        // Update badge
+                        const badge = card.querySelector('.status-badge');
+                        badge.classList.remove('completed', 'upcoming', 'interrupted');
+                        badge.classList.add('live-badge');
+                        badge.textContent = 'Live Now';
+                        badge.setAttribute('data-i18n', 'live_now');
+                    }
+                }
             });
+        }
+
+        // Parse time string "HH:MM AM/PM" to minutes since midnight
+        function parseTime(timeStr) {
+            const cleaned = timeStr.trim();
+            const [time, period] = cleaned.split(' ');
+            let [hours, minutes] = time.split(':').map(Number);
+            
+            if (period === 'PM' && hours !== 12) hours += 12;
+            if (period === 'AM' && hours === 12) hours = 0;
+            
+            return hours * 60 + minutes;
+        }
+
+        // Day switcher functionality
+        function switchDay(day) {
+            // Update active button
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards by day (for now, show all as they use Monday)
+            // In future, you can add day-specific data to schedule.json
+            const cards = document.querySelectorAll('.schedule-card');
+            cards.forEach(card => card.style.display = 'block');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            highlightLiveSession();
+            // Re-check every minute
+            setInterval(highlightLiveSession, 60000);
+            
+            // Apply translations if i18n is available
+            if (window._i18n && window._i18n.applyTranslations) {
+                window._i18n.applyTranslations();
+            }
         });
     </script>
 </body>

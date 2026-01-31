@@ -12,7 +12,11 @@
 			"login.role.select":"Select your role","login.method":"Method *","login.method.select":"Select method",
 			"login.method.email":"Email","login.method.code":"Code","login.identifier":"Email / Code *","login.submit":"Sign In",
 			"footer.quick":"Quick Links","footer.about":"About","footer.services":"Services","footer.support":"Support",
-			"footer.copy":"© 2026 Water Supply Department, Pune Municipal Corporation. All Rights Reserved."
+			"footer.copy":"© 2026 Water Supply Department, Pune Municipal Corporation. All Rights Reserved.",
+			"water_supply_schedules":"Water Supply Schedules","schedule_description":"View the daily water supply schedule for your area",
+			"monday":"Monday","tuesday":"Tuesday","wednesday":"Wednesday","thursday":"Thursday","friday":"Friday","saturday":"Saturday","sunday":"Sunday",
+			"time":"Time","duration":"Duration","no_schedule":"No schedule information available",
+			"status_completed":"Active","status_live":"Live Now","status_upcoming":"Upcoming","status_interrupted":"Interrupted"
 		},
 		mr: {
 			"nav.home":"मुख्यपृष्ठ","nav.about":"विषयी","nav.about.intro":"परिचय","nav.about.objectives":"उद्दिष्टे व कार्य",
@@ -25,7 +29,11 @@
 			"login.role.select":"तुमची भूमिका निवडा","login.method":"पद्धत *","login.method.select":"पद्धत निवडा",
 			"login.method.email":"ईमेल","login.method.code":"कोड","login.identifier":"ईमेल / कोड *","login.submit":"साइन इन",
 			"footer.quick":"त्वरित दुवे","footer.about":"विषयी","footer.services":"सेवा","footer.support":"समर्थन",
-			"footer.copy":"© 2026 जलपुरवठा विभाग, पुणे महानगरपालिका. सर्व हक्क राखीव."
+			"footer.copy":"© 2026 जलपुरवठा विभाग, पुणे महानगरपालिका. सर्व हक्क राखीव.",
+			"water_supply_schedules":"जल पुरवठा वेळापत्रक","schedule_description":"आपल्या क्षेत्रासाठी दैनिक जल पुरवठा वेळापत्रक पहा",
+			"monday":"सोमवार","tuesday":"मंगळवार","wednesday":"बुधवार","thursday":"गुरुवार","friday":"शुक्रवार","saturday":"शनिवार","sunday":"रविवार",
+			"time":"वेळ","duration":"कालावधी","no_schedule":"कोणतीही वेळापत्रक माहिती उपलब्ध नाही",
+			"status_completed":"सक्रिय","status_live":"अभिनव","status_upcoming":"आसन्न","status_interrupted":"व्यस्त"
 		},
 		hi: {
 			"nav.home":"मुख्य पृष्ठ","nav.about":"के बारे में","nav.about.intro":"परिचय","nav.about.objectives":"उद्देश्य और कार्य",
@@ -34,7 +42,11 @@
 			"nav.services.pipeline":"पाइपलाइन सिस्टम","nav.services.maintenance":"रखरखाव","nav.schedule":"शेड्यूल",
 			"nav.contact":"संपर्क","nav.authority":"अधिकारी","nav.publish":"नोटिस प्रकाशित करें","nav.dashboard":"डैशबोर्ड",
 			"auth.login":"लॉगिन","auth.logout":"लॉग आउट","role.authority":"अधिकारी","role.citizen":"नागरिक",
-			"login.signin":"साइन इन","login.subtitle":"जारी रखने के लिए अपनी प्रमाण जानकारी दर्ज करें","login.role":"भूमिका *",
+			"login.signin":"साइन इन","login.subtitle":"जारी रखने के लिए अपनी प्रमाण जानकारी द,
+			"water_supply_schedules":"जल आपूर्ति शेड्यूल","schedule_description":"अपने क्षेत्र के लिए दैनिक जल आपूर्ति शेड्यूल देखें",
+			"monday":"सोमवार","tuesday":"मंगलवार","wednesday":"बुधवार","thursday":"गुरुवार","friday":"शुक्रवार","saturday":"शनिवार","sunday":"रविवार",
+			"time":"समय","duration":"अवधि","no_schedule":"कोई शेड्यूल जानकारी उपलब्ध नहीं",
+			"status_completed":"सक्रिय","status_live":"अभी लाइव","status_upcoming":"आने वाला","status_interrupted":"बाधित"र्ज करें","login.role":"भूमिका *",
 			"login.role.select":"अपनी भूमिका चुनें","login.method":"विधि *","login.method.select":"विधि चुनें",
 			"login.method.email":"ईमेल","login.method.code":"कोड","login.identifier":"ईमेल / कोड *","login.submit":"साइन इन",
 			"footer.quick":"त्वरित लिंक","footer.about":"के बारे में","footer.services":"सेवाएँ","footer.support":"समर्थन",
