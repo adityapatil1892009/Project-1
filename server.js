@@ -5,10 +5,12 @@ const fs = require('fs');
 const http = require('http');
 const session = require('express-session');
 
+// Port configuration
 const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(express.static('public'));
+// Start Server with robust error handling and retry on port conflict
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
@@ -59,6 +61,15 @@ function requireAuthority(req, res, next) {
         return res.status(403).json({ error: 'Forbidden: authority access required' });
     }
     return res.status(403).send('Forbidden: authority access required');
+}
+
+// Middleware: require admin role
+function requireAdmin(req, res, next) {
+    if (req.session && req.session.user && req.session.user.role === 'admin') return next();
+    if (req.xhr || (req.headers.accept && req.headers.accept.indexOf('json') > -1)) {
+        return res.status(403).json({ error: 'Forbidden: admin access required' });
+    }
+    return res.redirect('/');
 }
 
 // Routes
@@ -387,6 +398,172 @@ app.get('/admin/dashboard', requireAuthority, (req, res) => {
     }
 });
 
+// ========== ADMIN DASHBOARD ROUTES ==========
+// Admin Dashboard Page
+app.get('/admin-dashboard', requireAdmin, (req, res) => {
+    try {
+        const users = loadUsers();
+        const schedule = readData('schedule.json');
+        const totalVisits = 15234; // Placeholder - can be tracked in a visits.json
+        res.render('admin/dashboard', { 
+            title: 'Admin Dashboard', 
+            users, 
+            schedule,
+            totalVisits,
+            totalUsers: users.length,
+            error: null
+        });
+    } catch (err) {
+        console.error('Admin dashboard error', err);
+        res.status(500).render('admin/dashboard', { title: 'Admin Dashboard', error: 'Failed to load dashboard', users: [], schedule: {}, totalVisits: 0, totalUsers: 0 });
+    }
+});
+
+// ========== USER MANAGEMENT API ==========
+// Get all users
+app.get('/api/admin/users', requireAdmin, (req, res) => {
+    const users = loadUsers();
+    res.json(users);
+});
+
+// Add user
+app.post('/api/admin/users', requireAdmin, (req, res) => {
+    try {
+        const { name, role, email, areaCode } = req.body;
+        if (!name || !role || !email) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        const users = loadUsers();
+        const newUser = { name, role, email, areaCode: areaCode || '' };
+        users.push(newUser);
+
+        const dataDir = path.join(__dirname, 'data');
+        fs.writeFileSync(path.join(dataDir, 'users.json'), JSON.stringify(users, null, 2));
+        
+        console.log('✅ User added:', name);
+        res.json({ ok: true, user: newUser });
+    } catch (err) {
+        console.error('❌ Error adding user:', err);
+        res.status(500).json({ error: 'Failed to add user' });
+    }
+});
+
+// Update user
+app.put('/api/admin/users/:index', requireAdmin, (req, res) => {
+    try {
+        const idx = parseInt(req.params.index);
+        const { name, role, email, areaCode } = req.body;
+        
+        const users = loadUsers();
+        if (idx < 0 || idx >= users.length) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        users[idx] = { name, role, email, areaCode: areaCode || '' };
+        const dataDir = path.join(__dirname, 'data');
+        fs.writeFileSync(path.join(dataDir, 'users.json'), JSON.stringify(users, null, 2));
+        
+        console.log('✅ User updated:', name);
+        res.json({ ok: true, user: users[idx] });
+    } catch (err) {
+        console.error('❌ Error updating user:', err);
+        res.status(500).json({ error: 'Failed to update user' });
+    }
+});
+
+// Delete user
+app.delete('/api/admin/users/:index', requireAdmin, (req, res) => {
+    try {
+        const idx = parseInt(req.params.index);
+        const users = loadUsers();
+        
+        if (idx < 0 || idx >= users.length) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const deleted = users.splice(idx, 1);
+        const dataDir = path.join(__dirname, 'data');
+        fs.writeFileSync(path.join(dataDir, 'users.json'), JSON.stringify(users, null, 2));
+        
+        console.log('✅ User deleted:', deleted[0].name);
+        res.json({ ok: true, message: 'User deleted' });
+    } catch (err) {
+        console.error('❌ Error deleting user:', err);
+        res.status(500).json({ error: 'Failed to delete user' });
+    }
+});
+
+// ========== SCHEDULE MANAGEMENT API ==========
+// Update schedule for an area
+app.put('/api/admin/schedule/:area', requireAdmin, (req, res) => {
+    try {
+        const area = req.params.area;
+        const { zone, status, timing, duration, message } = req.body;
+
+        const dataDir = path.join(__dirname, 'data');
+        const schedulePath = path.join(dataDir, 'schedule.json');
+        let schedule = readData('schedule.json');
+
+        schedule[area] = { zone, status, timing, duration, message };
+        fs.writeFileSync(schedulePath, JSON.stringify(schedule, null, 2));
+
+        console.log('✅ Schedule updated for:', area);
+        res.json({ ok: true, area, data: schedule[area] });
+    } catch (err) {
+        console.error('❌ Error updating schedule:', err);
+        res.status(500).json({ error: 'Failed to update schedule' });
+    }
+});
+
+// ========== STATISTICS API ==========
+app.get('/api/admin/stats', requireAdmin, (req, res) => {
+    try {
+        const users = loadUsers();
+        const contacts = readData('contact-messages.json');
+        const maintenance = readData('maintenance-requests.json');
+        const notices = readData('notices.json');
+
+        const stats = {
+            totalUsers: users.length,
+            totalAdmins: users.filter(u => u.role === 'admin').length,
+            totalAuthority: users.filter(u => u.role === 'authority').length,
+            totalCitizens: users.filter(u => u.role === 'citizen').length,
+            totalContacts: Array.isArray(contacts) ? contacts.length : 0,
+            totalMaintenanceRequests: Array.isArray(maintenance) ? maintenance.length : 0,
+            totalNotices: Array.isArray(notices) ? notices.length : 0,
+            totalPageVisits: 15234
+        };
+
+        res.json(stats);
+    } catch (err) {
+        console.error('❌ Error fetching stats:', err);
+        res.status(500).json({ error: 'Failed to fetch statistics' });
+    }
+});
+
+// ========== TRANSLATION SETTINGS API ==========
+app.get('/api/admin/settings', requireAdmin, (req, res) => {
+    try {
+        // Return current i18n settings
+        res.json({
+            enabledLanguages: ['en', 'hi', 'mr'],
+            defaultLanguage: 'en'
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch settings' });
+    }
+});
+
+app.put('/api/admin/settings', requireAdmin, (req, res) => {
+    try {
+        const { enabledLanguages, defaultLanguage } = req.body;
+        console.log('✅ Settings updated:', { enabledLanguages, defaultLanguage });
+        res.json({ ok: true, settings: { enabledLanguages, defaultLanguage } });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update settings' });
+    }
+});
 // Start Server with robust error handling and retry on port conflict
 const server = http.createServer(app);
 

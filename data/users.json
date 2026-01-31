@@ -1,5 +1,11 @@
 [
   {
+    "name": "System Admin",
+    "role": "admin",
+    "email": "admin@water-supply.gov.in",
+    "areaCode": "ADMIN-001"
+  },
+  {
     "name": "PMC Admin",
     "role": "authority",
     "email": "admin@pmc.gov.in",

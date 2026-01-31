@@ -221,8 +221,17 @@
             </form>
         </div>
 
+        <!-- Maintenance Service Log Dashboard -->
+        <div style="margin-top:30px;">
+            <h3 style="color:var(--primary-blue); margin-bottom:10px;">Maintenance Service Log</h3>
+
+            <div id="maintenanceDashboard" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:16px;">
+                <!-- Cards will be rendered here -->
+            </div>
+        </div>
+
         <!-- Recent requests -->
-        <div style="margin-top:40px;">
+        <div style="margin-top:24px;">
             <h3 style="color:var(--primary-blue); margin-bottom:10px;">Recent Maintenance Requests</h3>
             <div id="recentRequests" style="background:#fff; padding:12px; border-radius:6px; border:1px solid #eee; max-height:300px; overflow:auto;">
                 <small style="color:#999;">Loading...</small>
@@ -436,6 +445,83 @@
         }
 
         loadRecentRequests();
+        
+        /* ---------- Maintenance Dashboard Renderer ---------- */
+        async function loadMaintenanceItems() {
+            const container = document.getElementById('maintenanceDashboard');
+            container.innerHTML = '<div style="grid-column:1/-1; color:#666;">Loading maintenance items...</div>';
+            try {
+                // Try server-provided variable first
+                let items = window.__MAINTENANCE_ITEMS__ || null;
+                if (!items) {
+                    const r = await fetch('/api/maintenance-items');
+                    if (!r.ok) throw new Error('Failed');
+                    items = await r.json();
+                }
+                if (!Array.isArray(items) || items.length === 0) {
+                    container.innerHTML = '<div style="grid-column:1/-1; color:#666;">No maintenance items configured.</div>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                items.forEach(item => {
+                    const pct = Math.min(100, Math.max(0, item.nextServicePercent || 0));
+                    const status = (item.status || 'Operational').toLowerCase();
+                    const badgeClass = status === 'operational' ? 'status-operational' : status === 'service scheduled' ? 'status-scheduled' : 'status-repair';
+                    const card = document.createElement('div');
+                    card.className = 'maint-card';
+                    card.innerHTML = `
+                        <div class="card-head">
+                            <div class="card-left">
+                                <div class="equip-icon">🔧</div>
+                                <div class="equip-title">${escapeHtml(item.name || 'Unknown')}</div>
+                            </div>
+                            <div class="card-right">
+                                <div class="status-badge ${badgeClass}">${escapeHtml(item.status || 'Operational')}</div>
+                            </div>
+                        </div>
+                        <div class="progress-wrap">
+                            <div class="progress" aria-hidden="true">
+                                <div class="progress-bar" style="width:${pct}%"></div>
+                            </div>
+                            <div class="progress-label">Next check in ${escapeHtml(item.nextCheck || 'N/A')}</div>
+                        </div>
+                        <details class="history-details">
+                            <summary>View History</summary>
+                            <ul class="history-list">
+                                ${(Array.isArray(item.history) ? item.history.map(h => `<li>${escapeHtml(h)}</li>`).join('') : '<li>No history available</li>')}
+                            </ul>
+                        </details>
+                        ${ (typeof user !== 'undefined' && user && (user.role === 'admin' || user.role === 'authority')) ? `<div style="margin-top:10px; text-align:right;"><button class="edit-btn" data-id="${escapeHtml(item.id||'')}">Edit Status</button></div>` : ''}
+                    `;
+
+                    container.appendChild(card);
+                });
+
+                // Attach edit handlers
+                document.querySelectorAll('.edit-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        const id = btn.dataset.id;
+                        const newStatus = prompt('Set new status (Operational / Service Scheduled / Under Repair):');
+                        if (!newStatus) return;
+                        try {
+                            const res = await fetch('/api/admin/maintenance/' + encodeURIComponent(id), { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ status: newStatus }) });
+                            const j = await res.json();
+                            if (res.ok) {
+                                alert('Status updated');
+                                loadMaintenanceItems();
+                            } else alert(j.error || 'Update failed');
+                        } catch (err) { alert('Network error'); }
+                    });
+                });
+
+            } catch (err) {
+                container.innerHTML = '<div style="grid-column:1/-1; color:#b91c1c;">Unable to load maintenance items.</div>';
+            }
+        }
+
+        // call it after initial load
+        loadMaintenanceItems();
     </script>
 </body>
 </html>
