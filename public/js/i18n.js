@@ -190,6 +190,8 @@
 			if (s) s.value = lang;
 		});
 		flashElement(sourceEl || document.querySelector('.lang-select-compact') || document.querySelector('.lang-select-large'));
+		// Dispatch custom event for other components to react to language change
+		window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
 	}
 
 	// Initialize i18n: bind selectors and apply saved language
@@ -217,6 +219,6 @@
 		initI18n();
 	}
 
-	// Expose for debug
-	window._i18n = { setLanguage, applyTranslations, translations };
+	// Expose for debug and external use
+	window._i18n = { setLanguage, applyTranslations, translations, initI18n };
 })();

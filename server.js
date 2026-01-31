@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const fs = require('fs');
+const http = require('http');
 const session = require('express-session');
 
 const PORT = process.env.PORT || 8000;
@@ -386,7 +387,59 @@ app.get('/admin/dashboard', requireAuthority, (req, res) => {
     }
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`✅ Server running at http://localhost:${PORT}`);
+// Start Server with robust error handling and retry on port conflict
+const server = http.createServer(app);
+
+function tryListen(startPort, maxAttempts = 10) {
+    let attempts = 0;
+    let port = Number(startPort) || 8000;
+
+    function attempt() {
+        if (attempts >= maxAttempts) {
+            console.error(`⚠️ Failed to bind server after ${attempts} attempts.`);
+            process.exit(1);
+        }
+
+        server.listen(port, () => {
+            console.log(`✅ Server running at http://localhost:${port}`);
+            // update process.env.PORT for downstream tools
+            process.env.PORT = String(port);
+        });
+    }
+
+    server.on('error', (err) => {
+        if (err && err.code === 'EADDRINUSE') {
+            console.warn(`Port ${port} in use, trying ${port + 1}...`);
+            attempts += 1;
+            port += 1;
+            // small delay before retrying
+            setTimeout(() => attempt(), 300);
+            return;
+        }
+        console.error('Server error:', err);
+        process.exit(1);
+    });
+
+    attempt();
+}
+
+// Start trying from configured PORT
+tryListen(PORT, 20);
+
+// Graceful shutdown
+function shutdown(signal) {
+    console.log(`\nReceived ${signal}. Shutting down server...`);
+    server.close(() => {
+        console.log('Server closed.');
+        process.exit(0);
+    });
+    // Force exit after timeout
+    setTimeout(() => process.exit(1), 5000);
+}
+
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught exception:', err);
+    shutdown('uncaughtException');
 });

@@ -1,5 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Slider Logic
+    // ==========================================
+    // LANGUAGE SELECTOR INITIALIZATION
+    // ==========================================
+    
+    // Initialize language selector - support both navbar and login selectors
+    const langSelectors = document.querySelectorAll('#langSelect, #langSelectForm, .lang-select-compact, .lang-select-large');
+    
+    langSelectors.forEach(langSelect => {
+        if (langSelect) {
+            langSelect.addEventListener('change', function(e) {
+                const lang = e.target.value;
+                // Call i18n.changeLanguage or our custom setLanguage
+                if (window._i18n && window._i18n.setLanguage) {
+                    window._i18n.setLanguage(lang, e.target);
+                } else {
+                    // Fallback: store language preference
+                    localStorage.setItem('site_lang', lang);
+                }
+            });
+            
+            // Set initial value from localStorage
+            const savedLang = localStorage.getItem('site_lang') || 'en';
+            langSelect.value = savedLang;
+        }
+    });
+    
+    // ==========================================
+    // SLIDER LOGIC
+    // ==========================================
     let slideIndex = 0;
     const slides = document.querySelectorAll('.slide');
     
@@ -46,3 +74,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // but the Schedule page might need it. 
     // I'll leave it for now as I implemented a Schedule page separately.
 });
+
