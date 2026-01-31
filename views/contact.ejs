@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/header') %>
+    <%- include('partials/navbar') %>
+
+    <main class="container" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
+        <!-- Page Header -->
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="color: var(--primary-blue); font-size: 2.5rem; margin-bottom: 10px;">Contact Us</h1>
+            <p style="color: #666; font-size: 1.1rem;">We're here to help. Reach out to us with any questions or concerns.</p>
+        </div>
+
+        <!-- Contact Info Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 50px;">
+            <!-- Address Card -->
+            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid var(--primary-blue);">
+                <div style="font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 15px;">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3 style="color: var(--dark-blue); margin-bottom: 10px;">Address</h3>
+                <p style="color: #666; line-height: 1.8;">
+                    Water Supply Department<br>
+                    Civic Center<br>
+                    Smart City, Maharashtra - 400001<br>
+                    India
+                </p>
+            </div>
+
+            <!-- Phone Card -->
+            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid var(--secondary-blue);">
+                <div style="font-size: 2.5rem; color: var(--secondary-blue); margin-bottom: 15px;">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <h3 style="color: var(--dark-blue); margin-bottom: 10px;">Helpline</h3>
+                <p style="color: #666; line-height: 1.8;">
+                    <strong>24/7 Support:</strong><br>
+                    1800-123-4567<br>
+                    <small style="color: #999;">(Toll-free)</small>
+                </p>
+            </div>
+
+            <!-- Email Card -->
+            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid #e63946;">
+                <div style="font-size: 2.5rem; color: #e63946; margin-bottom: 15px;">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3 style="color: var(--dark-blue); margin-bottom: 10px;">Email</h3>
+                <p style="color: #666; line-height: 1.8;">
+                    <a href="mailto:helpdesk@water.smartcity.gov.in" style="color: var(--primary-blue); text-decoration: none; word-break: break-all;">
+                        helpdesk@water.smartcity.gov.in
+                    </a><br>
+                    <small style="color: #999;">Response within 24 hours</small>
+                </p>
+            </div>
+        </div>
+
+        <!-- Quick Response Categories -->
+        <div style="background: #f0f8ff; padding: 30px; border-radius: 12px; border-left: 5px solid var(--primary-blue); margin-bottom: 40px;">
+            <h3 style="color: var(--primary-blue); margin-top: 0; margin-bottom: 15px;">Quick Response Categories</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <div style="background: white; padding: 12px 15px; border-radius: 6px; border-left: 3px solid var(--primary-blue);">
+                    <strong style="color: var(--primary-blue);">🚨 Emergency</strong><br>
+                    <small style="color: #666;">No water / Critical issue</small>
+                </div>
+                <div style="background: white; padding: 12px 15px; border-radius: 6px; border-left: 3px solid var(--secondary-blue);">
+                    <strong style="color: var(--secondary-blue);">💧 Service Request</strong><br>
+                    <small style="color: #666;">New connection / Maintenance</small>
+                </div>
+                <div style="background: white; padding: 12px 15px; border-radius: 6px; border-left: 3px solid #e63946;">
+                    <strong style="color: #e63946;">💰 Billing</strong><br>
+                    <small style="color: #666;">Bill inquiry / Payment</small>
+                </div>
+                <div style="background: white; padding: 12px 15px; border-radius: 6px; border-left: 3px solid #10b981;">
+                    <strong style="color: #10b981;">📋 Other</strong><br>
+                    <small style="color: #666;">General inquiries</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <h2 style="color: var(--primary-blue); margin-bottom: 30px;">Send us a Message</h2>
+            
+            <form id="contactForm" style="display: grid; gap: 20px;">
+                <!-- Name & Email Row -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Full Name *</label>
+                        <input id="contactName" type="text" placeholder="Enter your full name" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1rem; transition: border-color 0.3s;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Email Address *</label>
+                        <input id="contactEmail" type="email" placeholder="your.email@example.com" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1rem; transition: border-color 0.3s;">
+                    </div>
+                </div>
+
+                <!-- Phone & Category Row -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Phone Number</label>
+                        <input id="contactPhone" type="tel" placeholder="98765-43210" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1rem; transition: border-color 0.3s;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Category *</label>
+                        <select id="contactCategory" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1rem; transition: border-color 0.3s;">
+                            <option value="">-- Select Category --</option>
+                            <option value="emergency">🚨 Emergency</option>
+                            <option value="service">💧 Service Request</option>
+                            <option value="billing">💰 Billing</option>
+                            <option value="complaint">⚠️ Complaint</option>
+                            <option value="feedback">⭐ Feedback</option>
+                            <option value="other">📋 Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Subject -->
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Subject *</label>
+                    <input id="contactSubject" type="text" placeholder="Brief subject of your message" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1rem; transition: border-color 0.3s;">
+                </div>
+
+                <!-- Message -->
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Message *</label>
+                    <textarea id="contactMessage" rows="6" placeholder="Please provide details about your inquiry..." required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1rem; resize: vertical; font-family: inherit; transition: border-color 0.3s;"></textarea>
+                </div>
+
+                <!-- Consent -->
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input id="contactConsent" type="checkbox" required style="width: 18px; height: 18px;">
+                    <span style="color: #666;">I consent to be contacted via email/phone regarding my inquiry</span>
+                </label>
+
+                <!-- Status Message -->
+                <div id="contactStatus" style="display: none; padding: 12px; border-radius: 6px; font-weight: 600;"></div>
+
+                <!-- Submit Button -->
+                <button type="button" onclick="submitContactForm()" style="padding: 14px 28px; background: var(--primary-blue); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 1.05rem; transition: all 0.3s;">
+                    Send Message
+                </button>
+            </form>
+        </div>
+
+        <!-- FAQ Section -->
+        <div style="margin-top: 50px; padding: 30px; background: #f9f9f9; border-radius: 12px;">
+            <h3 style="color: var(--primary-blue); margin-top: 0;">Frequently Asked Questions</h3>
+            <div style="display: grid; gap: 20px; margin-top: 20px;">
+                <div style="background: white; padding: 15px; border-radius: 6px; border-left: 3px solid var(--secondary-blue);">
+                    <strong style="color: var(--dark-blue);">Q: What is the average response time?</strong>
+                    <p style="color: #666; margin: 8px 0 0 0;">A: We typically respond to inquiries within 24 hours on working days.</p>
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 6px; border-left: 3px solid var(--secondary-blue);">
+                    <strong style="color: var(--dark-blue);">Q: How can I track my service request?</strong>
+                    <p style="color: #666; margin: 8px 0 0 0;">A: Visit <a href="/services/maintenance" style="color: var(--primary-blue); text-decoration: none;">our Maintenance page</a> to submit and track requests.</p>
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 6px; border-left: 3px solid var(--secondary-blue);">
+                    <strong style="color: var(--dark-blue);">Q: Is there emergency support available?</strong>
+                    <p style="color: #666; margin: 8px 0 0 0;">A: Yes, call our 24/7 helpline 1800-123-4567 for emergencies.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        async function submitContactForm() {
+            const form = document.getElementById('contactForm');
+            const statusEl = document.getElementById('contactStatus');
+
+            // Get all form values
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const phone = document.getElementById('contactPhone').value.trim();
+            const category = document.getElementById('contactCategory').value;
+            const subject = document.getElementById('contactSubject').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+            const consent = document.getElementById('contactConsent').checked;
+
+            // Validate required fields
+            if (!name || !email || !category || !subject || !message || !consent) {
+                statusEl.style.display = 'block';
+                statusEl.style.backgroundColor = '#fee2e2';
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = '❌ Please fill all required fields and check consent.';
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                statusEl.style.display = 'block';
+                statusEl.style.backgroundColor = '#fee2e2';
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = '❌ Please enter a valid email address.';
+                return;
+            }
+
+            // Prepare data
+            const data = {
+                name,
+                email,
+                phone,
+                category,
+                subject,
+                message,
+                consent
+            };
+
+            statusEl.style.display = 'block';
+            statusEl.style.backgroundColor = '#dbeafe';
+            statusEl.style.color = '#1e40af';
+            statusEl.innerText = '⏳ Sending message...';
+
+            try {
+                const res = await fetch('/contact/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const json = await res.json();
+
+                if (res.ok) {
+                    statusEl.style.backgroundColor = '#dcfce7';
+                    statusEl.style.color = '#166534';
+                    statusEl.innerText = '✅ Message sent successfully! Reference: ' + json.reference;
+                    
+                    // Reset form
+                    form.reset();
+                    
+                    // Hide status after 6 seconds
+                    setTimeout(() => {
+                        statusEl.style.display = 'none';
+                    }, 6000);
+                } else {
+                    statusEl.style.backgroundColor = '#fee2e2';
+                    statusEl.style.color = '#b91c1c';
+                    statusEl.innerText = '❌ Error: ' + (json.error || 'Failed to send message');
+                }
+            } catch (err) {
+                console.error('Contact form error:', err);
+                statusEl.style.backgroundColor = '#fee2e2';
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = '❌ Network error. Please try again.';
+            }
+        }
+
+        // Add focus styles dynamically
+        document.querySelectorAll('input, textarea, select').forEach(el => {
+            el.addEventListener('focus', function() {
+                this.style.borderColor = 'var(--primary-blue)';
+                this.style.boxShadow = '0 0 0 3px rgba(0, 119, 182, 0.1)';
+            });
+            el.addEventListener('blur', function() {
+                this.style.borderColor = '#e0e0e0';
+                this.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

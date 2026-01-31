@@ -8,14 +8,434 @@
     <main class="container" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
         <h2 style="color: var(--primary-blue); border-bottom: 2px solid var(--secondary-blue); padding-bottom: 10px; margin-bottom: 20px;"><%= title %></h2>
         
-        <div class="content-box">
-            <p>Regular maintenance ensures the longevity of our infrastructure and uninterrupted supply.</p>
-            <h3>Scheduled Maintenance</h3>
-            <p>We conduct quarterly maintenance of all pumping stations and biannual cleaning of reservoirs.</p>
-            <p>For urgent maintenance notices, please check the Home page.</p>
+        <!-- Sector Selection -->
+        <div class="content-box" style="background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 20px;">
+            <h3 style="color: var(--primary-blue); margin-bottom: 15px;">Sector Type</h3>
+            <p style="color: #666; margin-bottom: 20px;">Select whether you are requesting maintenance for residential/personal use or industrial purpose.</p>
+            
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 15px 20px; border: 2px solid #e0e0e0; border-radius: 8px; transition: all 0.3s;">
+                    <input type="radio" name="sectorType" value="citizen" checked onchange="switchSector('citizen')" style="width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; color: var(--primary-blue);">👤 Ordinary Citizen</strong>
+                        <small style="color: #666;">Residential / Individual request</small>
+                    </div>
+                </label>
+
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 15px 20px; border: 2px solid #e0e0e0; border-radius: 8px; transition: all 0.3s;">
+                    <input type="radio" name="sectorType" value="industrial" onchange="switchSector('industrial')" style="width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; color: var(--primary-blue);">🏭 Industrial Sector</strong>
+                        <small style="color: #666;">Commercial / Industrial facility</small>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Citizen Form -->
+        <div id="citizenForm" class="content-box" style="background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); display: block;">
+            <form id="maintenanceFormCitizen" autocomplete="on">
+                <!-- Service Request -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">1. Service Required</h3>
+                    <div style="display:grid; gap:12px;">
+                        <label>Service Type *</label>
+                        <select id="serviceTypeCitizen" required style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                            <option value="">-- Select Service --</option>
+                            <option value="new_meter">Request for New Water Meter Installation</option>
+                            <option value="meter_replacement">Request for Meter Replacement</option>
+                            <option value="faulty_meter">Request for Faulty Meter Repair</option>
+                            <option value="new_connection">Water Connection Request - Apply for New Domestic Water Connection</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Area & Building Details -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">2. Area & Building Details</h3>
+                    <div style="display:grid; gap:10px;">
+                        <input id="addressCitizen" placeholder="Full Address (House/Building, Street, Landmark)" required style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        <div style="display:flex; gap:10px;">
+                            <input id="wardCitizen" placeholder="Ward / Zone" style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                            <input id="buildingTypeCitizen" placeholder="Building Type (House/Apartment)" style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <input id="flatNoCitizen" placeholder="Flat / House No." style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                            <input id="consumerNoCitizen" placeholder="Consumer Number (if available)" style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Personal Info -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">3. Your Details</h3>
+                    <div style="display:grid; gap:10px;">
+                        <input id="fullnameCitizen" placeholder="Full Name *" required style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        <div style="display:flex; gap:10px;">
+                            <input id="ageCitizen" type="number" min="1" max="120" placeholder="Age *" required style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                            <input id="phoneCitizen" type="tel" placeholder="Phone Number *" required style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        </div>
+                        <input id="emailCitizen" type="email" placeholder="Email (optional)" style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                    </div>
+
+                    <!-- Guardian for minors -->
+                    <div id="guardianBlockCitizen" style="display:none; margin-top:12px; padding:12px; background:#fff8e1; border-radius:6px; border:1px solid #ffe082;">
+                        <strong>Minor Applicant</strong> — Guardian details required for verification.
+                        <div style="display:flex; gap:10px; margin-top:8px;">
+                            <input id="guardianNameCitizen" placeholder="Guardian Name *" style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                            <input id="guardianPhoneCitizen" placeholder="Guardian Phone *" style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Issue Description -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">4. Issue Description</h3>
+                    <textarea id="descriptionCitizen" rows="5" placeholder="Describe the issue in detail. Include when it started and any immediate concerns." required style="width:100%; padding:12px; border-radius:6px; border:1px solid #e0e0e0; resize:vertical;"></textarea>
+                </section>
+
+                <!-- Document Upload -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">5. Documents</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-weight:600; display:block; margin-bottom:8px;">Personal Documents (Aadhar, PAN, Voter ID, etc.)</label>
+                        <input id="personalDocsCitizen" type="file" multiple accept=".jpg,.jpeg,.png,.pdf" style="display:block; margin-bottom: 8px;">
+                        <small style="color:#666;">Upload photos of valid ID proof. Up to 5MB each.</small>
+                    </div>
+
+                    <div>
+                        <label style="font-weight:600; display:block; margin-bottom:8px;">Area Documents (Proof of Residence, Property Papers, etc.)</label>
+                        <input id="areaDocsCitizen" type="file" multiple accept=".jpg,.jpeg,.png,.pdf" style="display:block; margin-bottom: 8px;">
+                        <small style="color:#666;">Upload property deed, electricity bill, or rental agreement. Up to 5MB each.</small>
+                    </div>
+                </section>
+
+                <!-- Declaration & Submit -->
+                <section style="margin-bottom:10px;">
+                    <label style="display:flex; gap:10px; align-items:center; cursor:pointer;">
+                        <input id="declarationCitizen" type="checkbox" required>
+                        <span>I confirm the information provided is true and authorize verification if required.</span>
+                    </label>
+                </section>
+
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <button id="submitBtnCitizen" type="button" onclick="submitMaintenanceCitizen()" style="padding:12px 18px; background:var(--primary-blue); color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Submit Request</button>
+                    <div id="formStatusCitizen" style="color:#666;"></div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Industrial Form -->
+        <div id="industrialForm" class="content-box" style="background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); display: none;">
+            <form id="maintenanceFormIndustrial" autocomplete="on">
+                <!-- Service Request -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">1. Service Required</h3>
+                    <div style="display:grid; gap:12px;">
+                        <label>Service Type *</label>
+                        <select id="serviceTypeIndustrial" required style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                            <option value="">-- Select Service --</option>
+                            <option value="bulk_supply">Bulk Water Supply</option>
+                            <option value="pipeline_maintenance">Pipeline Maintenance</option>
+                            <option value="water_recycling">Water Recycling System</option>
+                            <option value="treatment_upgrade">Treatment Upgrade</option>
+                            <option value="pressure_regulation">Pressure Regulation</option>
+                            <option value="capacity_increase">Capacity Increase</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Facility Details -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">2. Facility & Area Details</h3>
+                    <div style="display:grid; gap:10px;">
+                        <input id="facilityNameIndustrial" placeholder="Facility / Company Name *" required style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        <input id="addressIndustrial" placeholder="Full Address of Facility *" required style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        <div style="display:flex; gap:10px;">
+                            <input id="wardIndustrial" placeholder="Ward / Zone" style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                            <input id="industrialTypeIndustrial" placeholder="Industry Type (Manufacturing, IT, etc.)" style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        </div>
+                        <input id="consumerNoIndustrial" placeholder="Consumer / Reference Number (if available)" style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                    </div>
+                </section>
+
+                <!-- Contact Person -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">3. Contact Person Details</h3>
+                    <div style="display:grid; gap:10px;">
+                        <input id="contactNameIndustrial" placeholder="Contact Person Name *" required style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        <input id="designationIndustrial" placeholder="Designation / Position *" required style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        <div style="display:flex; gap:10px;">
+                            <input id="phoneIndustrial" type="tel" placeholder="Phone Number *" required style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                            <input id="emailIndustrial" type="email" placeholder="Email *" required style="flex:1; padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Technical Requirements -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">4. Technical Requirements & Description</h3>
+                    <div style="display:grid; gap:10px;">
+                        <label>Current Water Requirement (in liters/day)</label>
+                        <input id="waterRequirementIndustrial" type="number" placeholder="e.g., 50000" style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                        
+                        <label>Requested Water Requirement (in liters/day) *</label>
+                        <input id="requestedRequirementIndustrial" type="number" placeholder="e.g., 100000" required style="padding:10px; border-radius:6px; border:1px solid #e0e0e0;">
+                    </div>
+                    
+                    <textarea id="descriptionIndustrial" rows="5" placeholder="Describe the maintenance/service requirement in detail. Include technical specifications and timeline if urgent." required style="width:100%; margin-top:10px; padding:12px; border-radius:6px; border:1px solid #e0e0e0; resize:vertical;"></textarea>
+                </section>
+
+                <!-- Document Upload -->
+                <section style="margin-bottom:20px;">
+                    <h3 style="color: var(--primary-blue); margin-bottom:10px;">5. Documents</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-weight:600; display:block; margin-bottom:8px;">Personal Documents of Contact Person (Aadhar, PAN, etc.)</label>
+                        <input id="personalDocsIndustrial" type="file" multiple accept=".jpg,.jpeg,.png,.pdf" style="display:block; margin-bottom: 8px;">
+                        <small style="color:#666;">ID proof of authorized contact person. Up to 5MB each.</small>
+                    </div>
+
+                    <div>
+                        <label style="font-weight:600; display:block; margin-bottom:8px;">Facility Documents (Registration, License, Property Papers, Layout, etc.)</label>
+                        <input id="areaDocsIndustrial" type="file" multiple accept=".jpg,.jpeg,.png,.pdf" style="display:block; margin-bottom: 8px;">
+                        <small style="color:#666;">Business license, factory registration, property deed, facility layout. Up to 5MB each.</small>
+                    </div>
+                </section>
+
+                <!-- Declaration & Submit -->
+                <section style="margin-bottom:10px;">
+                    <label style="display:flex; gap:10px; align-items:center; cursor:pointer;">
+                        <input id="declarationIndustrial" type="checkbox" required>
+                        <span>I confirm the information provided is true and authorize verification if required.</span>
+                    </label>
+                </section>
+
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <button id="submitBtnIndustrial" type="button" onclick="submitMaintenanceIndustrial()" style="padding:12px 18px; background:var(--primary-blue); color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Submit Request</button>
+                    <div id="formStatusIndustrial" style="color:#666;"></div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Recent requests -->
+        <div style="margin-top:40px;">
+            <h3 style="color:var(--primary-blue); margin-bottom:10px;">Recent Maintenance Requests</h3>
+            <div id="recentRequests" style="background:#fff; padding:12px; border-radius:6px; border:1px solid #eee; max-height:300px; overflow:auto;">
+                <small style="color:#999;">Loading...</small>
+            </div>
         </div>
     </main>
 
     <%- include('../partials/footer') %>
+
+    <script>
+        // Switch between citizen and industrial forms
+        function switchSector(type) {
+            const citizenForm = document.getElementById('citizenForm');
+            const industrialForm = document.getElementById('industrialForm');
+            if (type === 'citizen') {
+                citizenForm.style.display = 'block';
+                industrialForm.style.display = 'none';
+            } else {
+                citizenForm.style.display = 'none';
+                industrialForm.style.display = 'block';
+            }
+        }
+
+        // Monitor age for guardian block (citizen)
+        document.getElementById('ageCitizen').addEventListener('input', function(e){
+            const v = parseInt(e.target.value, 10);
+            const gb = document.getElementById('guardianBlockCitizen');
+            if (!isNaN(v) && v > 0 && v < 18) {
+                gb.style.display = 'block';
+                document.getElementById('guardianNameCitizen').required = true;
+                document.getElementById('guardianPhoneCitizen').required = true;
+            } else {
+                gb.style.display = 'none';
+                document.getElementById('guardianNameCitizen').required = false;
+                document.getElementById('guardianPhoneCitizen').required = false;
+            }
+        });
+
+        // Convert files to base64
+        function readFilesAsBase64(fileList) {
+            const files = Array.from(fileList || []);
+            return Promise.all(files.map(file => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve({ name: file.name, type: file.type, size: file.size, data: reader.result });
+                reader.onerror = () => reject(new Error('File read error'));
+                reader.readAsDataURL(file);
+            })));
+        }
+
+        // Submit citizen form
+        async function submitMaintenanceCitizen() {
+            const statusEl = document.getElementById('formStatusCitizen');
+            statusEl.style.color = '#666';
+            statusEl.innerText = 'Validating...';
+
+            const form = document.getElementById('maintenanceFormCitizen');
+            if (!form.checkValidity()) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Please fill all required fields.';
+                return;
+            }
+
+            const payload = {
+                sectorType: 'citizen',
+                serviceType: document.getElementById('serviceTypeCitizen').value,
+                address: document.getElementById('addressCitizen').value,
+                ward: document.getElementById('wardCitizen').value,
+                buildingType: document.getElementById('buildingTypeCitizen').value,
+                flatNo: document.getElementById('flatNoCitizen').value,
+                consumerNo: document.getElementById('consumerNoCitizen').value,
+                fullname: document.getElementById('fullnameCitizen').value,
+                age: document.getElementById('ageCitizen').value,
+                phone: document.getElementById('phoneCitizen').value,
+                email: document.getElementById('emailCitizen').value,
+                guardianName: document.getElementById('guardianNameCitizen').value || null,
+                guardianPhone: document.getElementById('guardianPhoneCitizen').value || null,
+                description: document.getElementById('descriptionCitizen').value,
+                declaration: document.getElementById('declarationCitizen').checked,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                statusEl.innerText = 'Processing documents...';
+                payload.personalDocs = await readFilesAsBase64(document.getElementById('personalDocsCitizen').files);
+                payload.areaDocs = await readFilesAsBase64(document.getElementById('areaDocsCitizen').files);
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Error reading documents.';
+                return;
+            }
+
+            statusEl.innerText = 'Submitting...';
+            try {
+                const res = await fetch('/services/maintenance/request', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const json = await res.json();
+                if (res.ok) {
+                    statusEl.style.color = '#16a34a';
+                    statusEl.innerText = 'Success! Reference: ' + (json.reference || 'N/A');
+                    form.reset();
+                    document.getElementById('guardianBlockCitizen').style.display = 'none';
+                    loadRecentRequests();
+                } else {
+                    statusEl.style.color = '#b91c1c';
+                    statusEl.innerText = json.error || 'Submission failed';
+                }
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Network error.';
+            }
+        }
+
+        // Submit industrial form
+        async function submitMaintenanceIndustrial() {
+            const statusEl = document.getElementById('formStatusIndustrial');
+            statusEl.style.color = '#666';
+            statusEl.innerText = 'Validating...';
+
+            const form = document.getElementById('maintenanceFormIndustrial');
+            if (!form.checkValidity()) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Please fill all required fields.';
+                return;
+            }
+
+            const payload = {
+                sectorType: 'industrial',
+                serviceType: document.getElementById('serviceTypeIndustrial').value,
+                facilityName: document.getElementById('facilityNameIndustrial').value,
+                address: document.getElementById('addressIndustrial').value,
+                ward: document.getElementById('wardIndustrial').value,
+                industryType: document.getElementById('industrialTypeIndustrial').value,
+                consumerNo: document.getElementById('consumerNoIndustrial').value,
+                contactName: document.getElementById('contactNameIndustrial').value,
+                designation: document.getElementById('designationIndustrial').value,
+                phone: document.getElementById('phoneIndustrial').value,
+                email: document.getElementById('emailIndustrial').value,
+                currentWaterRequirement: document.getElementById('waterRequirementIndustrial').value,
+                requestedWaterRequirement: document.getElementById('requestedRequirementIndustrial').value,
+                description: document.getElementById('descriptionIndustrial').value,
+                declaration: document.getElementById('declarationIndustrial').checked,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                statusEl.innerText = 'Processing documents...';
+                payload.personalDocs = await readFilesAsBase64(document.getElementById('personalDocsIndustrial').files);
+                payload.facilityDocs = await readFilesAsBase64(document.getElementById('areaDocsIndustrial').files);
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Error reading documents.';
+                return;
+            }
+
+            statusEl.innerText = 'Submitting...';
+            try {
+                const res = await fetch('/services/maintenance/request', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const json = await res.json();
+                if (res.ok) {
+                    statusEl.style.color = '#16a34a';
+                    statusEl.innerText = 'Success! Reference: ' + (json.reference || 'N/A');
+                    form.reset();
+                    loadRecentRequests();
+                } else {
+                    statusEl.style.color = '#b91c1c';
+                    statusEl.innerText = json.error || 'Submission failed';
+                }
+            } catch (err) {
+                statusEl.style.color = '#b91c1c';
+                statusEl.innerText = 'Network error.';
+            }
+        }
+
+        // Load recent requests
+        async function loadRecentRequests() {
+            const cont = document.getElementById('recentRequests');
+            cont.innerHTML = '<small style="color:#999;">Loading...</small>';
+            try {
+                const r = await fetch('/api/maintenance-requests');
+                if (!r.ok) throw new Error('Failed to load');
+                const list = await r.json();
+                if (!Array.isArray(list) || list.length === 0) {
+                    cont.innerHTML = '<small style="color:#666;">No requests yet.</small>';
+                    return;
+                }
+                cont.innerHTML = '';
+                list.slice(-10).reverse().forEach(item => {
+                    const div = document.createElement('div');
+                    div.style.padding = '10px 0';
+                    div.style.borderBottom = '1px solid #f0f0f0';
+                    const sectorBadge = item.sectorType === 'industrial' ? '🏭 Industrial' : '👤 Citizen';
+                    div.innerHTML = `<strong style="color:#111;">${escapeHtml(item.serviceType || '')} (${sectorBadge})</strong><br>
+                                     <small style="color:#666;">${new Date(item.createdAt).toLocaleString()} · Ref: ${escapeHtml(item.reference || '')}</small>`;
+                    cont.appendChild(div);
+                });
+            } catch (err) {
+                cont.innerHTML = '<small style="color:#b91c1c;">Unable to load recent requests.</small>';
+            }
+        }
+
+        function escapeHtml(s) {
+            if (!s) return '';
+            return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]);
+        }
+
+        loadRecentRequests();
+    </script>
 </body>
 </html>
