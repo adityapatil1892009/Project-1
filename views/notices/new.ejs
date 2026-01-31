@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+    <%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+    <main class="container" style="max-width:900px; padding:40px 20px; margin:40px auto;">
+        <h2 style="color:var(--primary-blue); margin-bottom:12px;">📢 Publish Notice</h2>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div style="background:#fee2e2; color:#b91c1c; padding:12px; border-radius:6px; margin-bottom:20px; border-left:4px solid #b91c1c;">
+                ❌ <%= error %>
+            </div>
+        <% } %>
+
+        <form method="post" action="/notices/new" style="display:grid; gap:16px; background:var(--white); padding:30px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+            <div>
+                <label style="display:block; margin-bottom:8px; font-weight:600; color:var(--text-color);">Notice Title *</label>
+                <input name="title" required style="width:100%; padding:12px; border:2px solid #e0e0e0; border-radius:6px; font-size:1rem; box-sizing:border-box;">
+            </div>
+
+            <div>
+                <label style="display:block; margin-bottom:8px; font-weight:600; color:var(--text-color);">Date (optional)</label>
+                <input type="date" name="date" style="width:100%; padding:12px; border:2px solid #e0e0e0; border-radius:6px; font-size:1rem; box-sizing:border-box;">
+            </div>
+
+            <div>
+                <label style="display:block; margin-bottom:8px; font-weight:600; color:var(--text-color);">Notice Content *</label>
+                <textarea name="content" rows="8" required style="width:100%; padding:12px; border:2px solid #e0e0e0; border-radius:6px; font-size:1rem; box-sizing:border-box; resize:vertical; font-family:inherit;"></textarea>
+            </div>
+
+            <div style="display:flex; gap:12px;">
+                <button type="submit" style="padding:12px 20px; background:var(--primary-blue); color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">
+                    ✓ Publish Notice
+                </button>
+                <a href="/" style="padding:12px 20px; background:#e0e0e0; color:#333; border-radius:6px; text-decoration:none; align-self:center; font-weight:600;">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

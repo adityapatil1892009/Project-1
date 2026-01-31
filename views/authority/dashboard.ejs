@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<body>
+    <%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+    <main class="container" style="padding:30px 20px; max-width:1200px; margin:40px auto;">
+        <h2 style="color:var(--primary-blue); margin-bottom:12px;">🎛️ Admin Dashboard</h2>
+        <p style="color:#666; margin-bottom:30px;">Manage all citizen complaints, maintenance requests, and notices.</p>
+
+        <!-- Stats -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-bottom:30px;">
+            <div style="background:var(--light-blue); padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue);">
+                <div style="color:var(--primary-blue); font-size:1.8rem; font-weight:700;"><%= contacts ? contacts.length : 0 %></div>
+                <div style="color:#666; font-size:0.95rem;">Contact Messages</div>
+            </div>
+            <div style="background:var(--light-blue); padding:20px; border-radius:8px; border-left:4px solid var(--secondary-blue);">
+                <div style="color:var(--secondary-blue); font-size:1.8rem; font-weight:700;"><%= maintenance ? maintenance.length : 0 %></div>
+                <div style="color:#666; font-size:0.95rem;">Maintenance Requests</div>
+            </div>
+            <div style="background:var(--light-blue); padding:20px; border-radius:8px; border-left:4px solid #10b981;">
+                <div style="color:#10b981; font-size:1.8rem; font-weight:700;"><%= notices ? notices.length : 0 %></div>
+                <div style="color:#666; font-size:0.95rem;">Published Notices</div>
+            </div>
+        </div>
+
+        <!-- Contact Messages -->
+        <section style="margin-bottom:40px;">
+            <h3 style="color:var(--primary-blue); margin-bottom:16px;">📧 Contact Messages</h3>
+            <% if (!contacts || contacts.length === 0) { %>
+                <p style="color:#999; text-align:center; padding:30px;">No contact messages yet.</p>
+            <% } else { %>
+                <div style="display:grid; gap:12px;">
+                    <% contacts.slice().reverse().forEach(m => { %>
+                        <div style="background:var(--white); padding:16px; border-radius:8px; border-left:4px solid var(--secondary-blue); box-shadow:0 2px 6px rgba(0,0,0,0.04);">
+                            <div style="display:flex; justify-content:space-between; align-items:start; gap:12px;">
+                                <div>
+                                    <strong style="color:var(--text-color); display:block; margin-bottom:4px;"><%= m.subject %></strong>
+                                    <small style="color:#666;">From: <%= m.name %> (<%= m.email %>)</small><br>
+                                    <small style="color:#999; display:block; margin-top:4px;">📅 <%= new Date(m.receivedAt).toLocaleString() %></small>
+                                </div>
+                                <div style="text-align:right; font-size:0.85rem;">
+                                    <span style="background:var(--light-blue); color:var(--primary-blue); padding:4px 8px; border-radius:4px; display:inline-block;">
+                                        <%= m.category %>
+                                    </span>
+                                </div>
+                            </div>
+                            <p style="margin:10px 0 0 0; color:#555; line-height:1.5;">
+                                <%= (m.message || '').substring(0, 200) %><% if ((m.message || '').length > 200) { %>...<% } %>
+                            </p>
+                            <small style="color:#999; display:block; margin-top:8px;">📌 Ref: <%= m.reference %></small>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </section>
+
+        <!-- Maintenance Requests -->
+        <section style="margin-bottom:40px;">
+            <h3 style="color:var(--primary-blue); margin-bottom:16px;">🔧 Maintenance Requests</h3>
+            <% if (!maintenance || maintenance.length === 0) { %>
+                <p style="color:#999; text-align:center; padding:30px;">No maintenance requests yet.</p>
+            <% } else { %>
+                <div style="display:grid; gap:12px;">
+                    <% maintenance.slice().reverse().forEach(r => { %>
+                        <div style="background:var(--white); padding:16px; border-radius:8px; border-left:4px solid #f59e0b; box-shadow:0 2px 6px rgba(0,0,0,0.04);">
+                            <div style="display:flex; justify-content:space-between; align-items:start; gap:12px;">
+                                <div>
+                                    <strong style="color:var(--text-color); display:block; margin-bottom:4px;"><%= r.serviceType || 'Unknown Service' %></strong>
+                                    <small style="color:#666;">From: <%= r.fullname || r.contactName || 'Unknown' %> (<%= r.phone %>)</small><br>
+                                    <small style="color:#999; display:block; margin-top:4px;">📍 <%= r.address || r.facilityName || 'Unknown Location' %></small>
+                                </div>
+                                <div style="text-align:right; font-size:0.85rem;">
+                                    <span style="background:#fef3c7; color:#92400e; padding:4px 8px; border-radius:4px; display:inline-block;">
+                                        <%= r.sectorType === 'industrial' ? '🏭 Industrial' : '👤 Citizen' %>
+                                    </span>
+                                </div>
+                            </div>
+                            <p style="margin:10px 0 0 0; color:#555; line-height:1.5;">
+                                <%= (r.description || '').substring(0, 200) %><% if ((r.description || '').length > 200) { %>...<% } %>
+                            </p>
+                            <small style="color:#999; display:block; margin-top:8px;">📌 Ref: <%= r.reference %> · 📅 <%= new Date(r.receivedAt).toLocaleString() %></small>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </section>
+
+        <!-- Published Notices -->
+        <section>
+            <h3 style="color:var(--primary-blue); margin-bottom:16px;">📢 Published Notices</h3>
+            <% if (!notices || notices.length === 0) { %>
+                <p style="color:#999; text-align:center; padding:30px;">No notices published yet.</p>
+            <% } else { %>
+                <div style="display:grid; gap:12px;">
+                    <% notices.slice().reverse().forEach(n => { %>
+                        <div style="background:var(--white); padding:16px; border-radius:8px; border-left:4px solid #10b981; box-shadow:0 2px 6px rgba(0,0,0,0.04);">
+                            <strong style="color:var(--text-color); display:block; margin-bottom:4px;"><%= n.title %></strong>
+                            <small style="color:#666;">By: <%= n.author %> · 📅 <%= n.date %></small>
+                            <p style="margin:10px 0 0 0; color:#555; line-height:1.5;">
+                                <%= (n.content || '').substring(0, 250) %><% if ((n.content || '').length > 250) { %>...<% } %>
+                            </p>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </section>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

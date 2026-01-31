@@ -1,0 +1,26 @@
+[
+  {
+    "name": "PMC Admin",
+    "role": "authority",
+    "email": "admin@pmc.gov.in",
+    "areaCode": "PMC-AUTH-001"
+  },
+  {
+    "name": "Zone Supervisor A",
+    "role": "authority",
+    "email": "sup.zonea@pmc.gov.in",
+    "areaCode": "PMC-AUTH-002"
+  },
+  {
+    "name": "Ramesh Patil",
+    "role": "citizen",
+    "email": "ramesh.patil@example.com",
+    "areaCode": "ZONE-101"
+  },
+  {
+    "name": "Sita Deshpande",
+    "role": "citizen",
+    "email": "sita.d@example.com",
+    "areaCode": "ZONE-102"
+  }
+]

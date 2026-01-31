@@ -1,38 +1,78 @@
 <nav class="navbar">
     <ul class="nav-links">
-        <li><a href="/">Home</a></li>
+        <li><a href="/">🏠 <span data-i18n="nav.home">Home</span></a></li>
         
         <li class="dropdown">
-            <a href="#" class="dropbtn">About <i class="fas fa-caret-down"></i></a>
+            <a href="#" class="dropbtn">📚 <span data-i18n="nav.about">About</span> <i class="fas fa-caret-down"></i></a>
             <div class="dropdown-content">
-                <a href="/about/introduction">Introduction</a>
-                <a href="/about/objectives">Objectives and Functions</a>
-                <a href="/about/officers">Officers and Employees</a>
+                <a href="/about/introduction" data-i18n="nav.about.intro">Introduction</a>
+                <a href="/about/objectives" data-i18n="nav.about.objectives">Objectives & Functions</a>
+                <a href="/about/officers" data-i18n="nav.about.officers">Officers & Staff</a>
             </div>
         </li>
 
         <li class="dropdown">
-            <a href="#" class="dropbtn">Citizen Corner <i class="fas fa-caret-down"></i></a>
+            <a href="#" class="dropbtn">👥 <span data-i18n="nav.citizen">Citizen</span> <i class="fas fa-caret-down"></i></a>
             <div class="dropdown-content">
-                <a href="/citizen/complaint">Complaint and Queries</a>
+                <a href="/citizen/complaint" data-i18n="nav.citizen.complaint">Report Complaint</a>
             </div>
         </li>
 
         <li class="dropdown">
-            <a href="#" class="dropbtn">Services <i class="fas fa-caret-down"></i></a>
+            <a href="#" class="dropbtn">⚙️ <span data-i18n="nav.services">Services</span> <i class="fas fa-caret-down"></i></a>
             <div class="dropdown-content">
                 <div class="sub-dropdown">
                     <a href="/services/tanks" class="sub-dropbtn">Water Tanks <i class="fas fa-caret-right"></i></a>
                     <div class="sub-dropdown-content">
-                        <a href="/services/tanks/cleaning-schedule">Cleaning Schedules</a>
+                        <a href="/services/tanks/cleaning-schedule" data-i18n="nav.services.tanks.schedule">Cleaning Schedules</a>
                     </div>
                 </div>
-                <a href="/services/pipeline">Pipeline System</a>
-                <a href="/services/maintenance">Maintenance</a>
+                <a href="/services/pipeline" data-i18n="nav.services.pipeline">Pipeline System</a>
+                <a href="/services/maintenance" data-i18n="nav.services.maintenance">Maintenance</a>
             </div>
         </li>
 
-        <li><a href="/schedule">Schedule</a></li>
-        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/schedule">📅 <span data-i18n="nav.schedule">Schedule</span></a></li>
+        <li><a href="/contact">📞 <span data-i18n="nav.contact">Contact</span></a></li>
+
+        <% if (user && user.role === 'authority') { %>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">🎛️ <span data-i18n="nav.authority">Authority</span> <i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="/notices/new">📢 <span data-i18n="nav.publish">Publish Notice</span></a>
+                    <a href="/admin/dashboard">📊 <span data-i18n="nav.dashboard">Dashboard</span></a>
+                </div>
+            </li>
+        <% } %>
     </ul>
+
+    <!-- Top Right Auth & Language -->
+    <div class="navbar-auth">
+        <!-- compact language selector (site-wide) -->
+        <select id="langSelect" class="lang-select-compact" aria-label="Language selector">
+            <option value="en">English</option>
+            <option value="mr">मराठी</option>
+            <option value="hi">हिन्दी</option>
+        </select>
+
+        <% if (user) { %>
+            <div class="user-info">
+                <span class="user-name"><%= user.name %></span>
+                <span class="user-role">
+                    <% if (user.role === 'authority') { %>
+                        🏛️ <span data-i18n="role.authority">Authority</span>
+                    <% } else { %>
+                        👤 <span data-i18n="role.citizen">Citizen</span>
+                    <% } %>
+                </span>
+            </div>
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> <span data-i18n="auth.logout">Logout</span>
+            </a>
+        <% } else { %>
+            <a href="/login" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> <span data-i18n="auth.login">Login</span>
+            </a>
+        <% } %>
+    </div>
 </nav>
