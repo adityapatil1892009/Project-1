@@ -4,17 +4,27 @@ const path = require('path');
 const fs = require('fs');
 const http = require('http');
 const session = require('express-session');
+const fileUpload = require('express-fileupload');
 
 // Port configuration
 const PORT = process.env.PORT || 8000;
 
-// Middleware
+// Middleware - CORRECT ORDER MATTERS
 app.use(express.static('public'));
-// Start Server with robust error handling and retry on port conflict
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// Parse request body BEFORE fileUpload
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '12mb' }));
+
+// File upload middleware
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB max total
+    abortOnLimit: true,
+    safeFileNames: true,
+    preserveExtension: true
+}));
 
 // Session setup
 app.use(session({
@@ -618,6 +628,7 @@ app.post('/citizen/complaint/submit', (req, res) => {
         const issueType = payload.issueType || '';
         const severity = payload.severity || '';
         const description = payload.description || '';
+        const attachmentCount = parseInt(payload.attachmentCount || 0, 10);
 
         if (!phone || !issueType || !severity || !description) {
             return res.status(400).json({ error: 'Missing required fields' });
@@ -625,6 +636,11 @@ app.post('/citizen/complaint/submit', (req, res) => {
 
         const dataDir = path.join(__dirname, 'data');
         if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+
+        // Create complaints directory for file storage
+        const complaintsDir = path.join(dataDir, 'complaints-attachments');
+        if (!fs.existsSync(complaintsDir)) fs.mkdirSync(complaintsDir, { recursive: true });
+
         const filePath = path.join(dataDir, 'complaints.json');
 
         let complaints = [];
@@ -636,6 +652,34 @@ app.post('/citizen/complaint/submit', (req, res) => {
         } catch (e) { complaints = []; }
 
         const reference = 'CMP' + Date.now().toString(36).toUpperCase().slice(-8);
+        
+        // Store attachment file names
+        const attachments = [];
+        for (let i = 0; i < attachmentCount; i++) {
+            const fileKey = `attachment_${i}`;
+            const file = req.files && req.files[fileKey];
+            
+            if (file) {
+                // Sanitize filename
+                const timestamp = Date.now();
+                const safeFileName = `${reference}_${i}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+                const filePath2 = path.join(complaintsDir, safeFileName);
+                
+                try {
+                    file.mv(filePath2);
+                    attachments.push({
+                        originalName: file.name,
+                        storedName: safeFileName,
+                        size: file.size,
+                        uploadedAt: new Date().toISOString()
+                    });
+                    console.log(`✅ Attachment saved: ${safeFileName}`);
+                } catch (err) {
+                    console.error(`❌ Error saving attachment: ${err.message}`);
+                }
+            }
+        }
+
         const entry = {
             reference,
             consumerNumber,
@@ -644,6 +688,7 @@ app.post('/citizen/complaint/submit', (req, res) => {
             issueType,
             severity,
             description,
+            attachments: attachments,
             status: 'New',
             receivedAt: new Date().toISOString()
         };
@@ -651,7 +696,7 @@ app.post('/citizen/complaint/submit', (req, res) => {
         fs.writeFileSync(filePath, JSON.stringify(complaints, null, 2), 'utf8');
 
         console.log('✅ Complaint saved:', reference);
-        return res.json({ ok: true, reference });
+        return res.json({ ok: true, reference, attachmentCount: attachments.length });
     } catch (err) {
         console.error('❌ Complaint submit error:', err);
         return res.status(500).json({ error: 'Server error' });
