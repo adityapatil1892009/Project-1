@@ -25,6 +25,14 @@
             </div>
         </div>
 
+        <!-- Citizen Complaints -->
+        <section style="margin-bottom:40px;">
+            <h3 style="color:var(--primary-blue); margin-bottom:16px;">👥 Citizen Complaints</h3>
+            <div id="complaints-container" style="display:grid; gap:12px;">
+                <p style="color:#999; text-align:center; padding:20px;" id="complaints-loading">Loading complaints...</p>
+            </div>
+        </section>
+
         <!-- Contact Messages -->
         <section style="margin-bottom:40px;">
             <h3 style="color:var(--primary-blue); margin-bottom:16px;">📧 Contact Messages</h3>
@@ -95,18 +103,153 @@
             <% } else { %>
                 <div style="display:grid; gap:12px;">
                     <% notices.slice().reverse().forEach(n => { %>
-                        <div style="background:var(--white); padding:16px; border-radius:8px; border-left:4px solid #10b981; box-shadow:0 2px 6px rgba(0,0,0,0.04);">
+                        <div style="background:var(--white); padding:16px; border-radius:8px; border-left:4px solid #10b981; box-shadow:0 2px 6px rgba(0,0,0,0.04);" id="notice-<%= n.id %>">
                             <strong style="color:var(--text-color); display:block; margin-bottom:4px;"><%= n.title %></strong>
                             <small style="color:#666;">By: <%= n.author %> · 📅 <%= n.date %></small>
                             <p style="margin:10px 0 0 0; color:#555; line-height:1.5;">
                                 <%= (n.content || '').substring(0, 250) %><% if ((n.content || '').length > 250) { %>...<% } %>
                             </p>
+                            <div style="margin-top:10px; text-align:right;">
+                                <button onclick="deleteNotice(this)" data-id="<%= n.id %>" style="padding:8px 12px; background:#ef4444; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+                                    🗑️ Delete
+                                </button>
+                            </div>
                         </div>
                     <% }) %>
                 </div>
             <% } %>
         </section>
     </main>
+
+    <script>
+        // Delete notice for authority dashboard
+        async function deleteNotice(btn) {
+            const id = btn && btn.dataset && btn.dataset.id;
+            if (!id) return;
+            if (!confirm('Are you sure you want to delete this notice?')) return;
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/notices/' + encodeURIComponent(id), { method: 'DELETE', headers: { 'Accept': 'application/json' } });
+                const json = await res.json().catch(()=>({}));
+                if (res.ok && json.ok) {
+                    const el = document.getElementById('notice-' + id) || btn.closest('div[id^="notice-"]');
+                    if (el) el.remove();
+                } else {
+                    btn.disabled = false;
+                    alert(json.error || 'Failed to delete notice');
+                }
+            } catch (err) {
+                btn.disabled = false;
+                alert('Failed to delete notice');
+            }
+        }
+
+        // Load citizen complaints (authority)
+        async function loadComplaints() {
+            const container = document.getElementById('complaints-container');
+            const loading = document.getElementById('complaints-loading');
+            if (loading) loading.style.display = 'block';
+            try {
+                const res = await fetch('/api/complaints');
+                const list = await res.json();
+                if (loading) loading.style.display = 'none';
+                if (!Array.isArray(list) || list.length === 0) {
+                    container.innerHTML = '<p style="color:#999; text-align:center; padding:20px;">No complaints submitted yet.</p>';
+                    return;
+                }
+                // build UI
+                const html = list.slice().reverse().map(c => {
+                    const isNew = c.status === 'New' ? 'background: linear-gradient(90deg, rgba(255,249,196,0.7), #fff); border-left:4px solid #f59e0b;' : '';
+                    return `
+                        <div id="complaint-${c.reference}" style="background:var(--white); padding:14px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.04); ${isNew}">
+                            <div style="display:flex; justify-content:space-between; gap:12px; align-items:start;">
+                                <div>
+                                    <strong style="color:var(--text-color); display:block; margin-bottom:4px;">${escapeHtml(c.issueType || 'Complaint')} · <small style="color:#666;">${c.reference}</small></strong>
+                                    <small style="color:#666;">From: ${escapeHtml(c.name || 'Anonymous')} · ${escapeHtml(c.phone || '')}</small>
+                                    <div style="color:#555; margin-top:8px;">${escapeHtml((c.description || '').substring(0, 400))}${(c.description && c.description.length>400)?'...':''}</div>
+                                    <small style="color:#999; display:block; margin-top:8px;">📅 ${new Date(c.receivedAt).toLocaleString()} · Status: <strong>${escapeHtml(c.status)}</strong></small>
+                                </div>
+                                <div style="text-align:right; display:flex; flex-direction:column; gap:8px;">
+                                    ${c.status !== 'Viewed' ? `<button onclick="updateComplaintStatus(this,'Viewed')" data-ref="${c.reference}" style="padding:8px 12px; background:#10b981; color:#fff; border:none; border-radius:6px; cursor:pointer;">Mark Viewed</button>` : `<button disabled style="padding:8px 12px; background:#e5e7eb; color:#666; border:none; border-radius:6px;">Viewed</button>`}
+                                    ${c.status !== 'Resolved' ? `<button onclick="updateComplaintStatus(this,'Resolved')" data-ref="${c.reference}" style="padding:8px 12px; background:#3b82f6; color:#fff; border:none; border-radius:6px; cursor:pointer;">Mark Resolved</button>` : `<button disabled style="padding:8px 12px; background:#e5e7eb; color:#666; border:none; border-radius:6px;">Resolved</button>`}
+                                    <button onclick="deleteComplaint(this)" data-ref="${c.reference}" style="padding:8px 12px; background:#ef4444; color:#fff; border:none; border-radius:6px; cursor:pointer;">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                container.innerHTML = html;
+            } catch (err) {
+                console.error(err);
+                if (loading) loading.style.display = 'none';
+                container.innerHTML = '<p style="color:#999; text-align:center; padding:20px;">Failed to load complaints.</p>';
+            }
+        }
+
+        // Update complaint status
+        async function updateComplaintStatus(btn, status) {
+            const ref = btn && btn.dataset && btn.dataset.ref;
+            if (!ref) return;
+            if (!(confirm && confirm(`Mark complaint ${ref} as ${status}?`))) return;
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/complaints/' + encodeURIComponent(ref), {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+                const json = await res.json().catch(()=>({}));
+                if (res.ok && json.ok) {
+                    const el = document.getElementById('complaint-' + ref);
+                    if (el) el.remove(); // simple UX: remove and reload list to reflect ordering
+                    // reload list for fresh state
+                    setTimeout(loadComplaints, 300);
+                } else {
+                    btn.disabled = false;
+                    alert(json.error || 'Failed to update complaint');
+                }
+            } catch (err) {
+                btn.disabled = false;
+                alert('Failed to update complaint');
+            }
+        }
+
+        // Delete complaint
+        async function deleteComplaint(btn) {
+            const ref = btn && btn.dataset && btn.dataset.ref;
+            if (!ref) return;
+            if (!confirm('Are you sure you want to delete this complaint?')) return;
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/complaints/' + encodeURIComponent(ref), { method: 'DELETE', headers: { 'Accept': 'application/json' }});
+                const json = await res.json().catch(()=>({}));
+                if (res.ok && json.ok) {
+                    const el = document.getElementById('complaint-' + ref);
+                    if (el) el.remove();
+                } else {
+                    btn.disabled = false;
+                    alert(json.error || 'Failed to delete complaint');
+                }
+            } catch (err) {
+                btn.disabled = false;
+                alert('Failed to delete complaint');
+            }
+        }
+
+        // small helper to escape HTML in templates
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"'`]/g, function (s) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' })[s];
+            });
+        }
+
+        // load complaints when dashboard loads
+        window.addEventListener('DOMContentLoaded', () => {
+            // existing loads (contacts etc.) will run; also load complaints
+            loadComplaints();
+        });
+    </script>
 
     <%- include('../partials/footer') %>
 </body>

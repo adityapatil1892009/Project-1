@@ -1,0 +1,20 @@
+{
+  "Chinchwad": {
+    "Monday": {
+      "status": "Deactive",
+      "timing": "6:00 AM - 8:00 AM",
+      "duration": "2 hours",
+      "message": "",
+      "updatedAt": "2026-02-01T09:27:19.539Z",
+      "updatedBy": "PMC Admin"
+    },
+    "Sunday": {
+      "status": "Deactive",
+      "timing": "6:00 AM - 8:00 AM",
+      "duration": "2 hours",
+      "message": "",
+      "updatedAt": "2026-02-01T09:28:35.301Z",
+      "updatedBy": "PMC Admin"
+    }
+  }
+}

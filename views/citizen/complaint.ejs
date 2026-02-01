@@ -40,11 +40,11 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Consumer Number *</label>
-                            <input type="text" placeholder="e.g., WS123456" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
+                            <input name="consumerNumber" type="text" placeholder="e.g., WS123456" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
                         </div>
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Phone Number *</label>
-                            <input type="tel" placeholder="e.g., 98765-43210" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
+                            <input name="phone" type="tel" placeholder="e.g., 98765-43210" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                     
                     <div style="margin-bottom: 20px;">
                         <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Issue Type *</label>
-                        <select required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
+                        <select name="issueType" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
                             <option value="">-- Select Issue Type --</option>
                             <option value="no-water">❌ No Water Supply</option>
                             <option value="low-pressure">📉 Low Pressure</option>
@@ -69,7 +69,7 @@
 
                     <div style="margin-bottom: 20px;">
                         <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Severity Level *</label>
-                        <select required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
+                        <select name="severity" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em;">
                             <option value="">-- Select Severity --</option>
                             <option value="low">🟢 Low - Can Wait</option>
                             <option value="medium">🟡 Medium - Urgent</option>
@@ -79,7 +79,7 @@
 
                     <div style="margin-bottom: 20px;">
                         <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Description *</label>
-                        <textarea rows="5" placeholder="Please describe your issue in detail. Include location, when it started, and any photos/evidence if available." required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em; resize: vertical;"></textarea>
+                        <textarea name="description" rows="5" placeholder="Please describe your issue in detail. Include location, when it started, and any photos/evidence if available." required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1em; resize: vertical;"></textarea>
                     </div>
                 </div>
 
@@ -122,14 +122,37 @@
     <%- include('../partials/footer') %>
 
     <script>
-        function submitComplaint() {
+        async function submitComplaint() {
             const form = document.getElementById('complaintForm');
-            if (form.checkValidity()) {
-                const referenceId = 'CMP' + Math.random().toString(9).substr(2, 9).toUpperCase();
-                alert(`✓ Complaint Registered Successfully!\n\nReference ID: ${referenceId}\n\nYou will receive updates via SMS and Email.`);
-                form.reset();
-            } else {
+            if (!form.checkValidity()) {
                 alert('Please fill all required fields marked with *');
+                return;
+            }
+            const data = {
+                consumerNumber: form.consumerNumber.value || '',
+                phone: form.phone.value || '',
+                name: form.name ? form.name.value : '',
+                issueType: form.issueType.value,
+                severity: form.severity.value,
+                description: form.description.value
+            };
+
+            try {
+                const res = await fetch('/citizen/complaint/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const json = await res.json();
+                if (res.ok && json.ok) {
+                    alert(`✓ Complaint Registered Successfully!\n\nReference ID: ${json.reference}\n\nYou will receive updates via SMS and Email.`);
+                    form.reset();
+                } else {
+                    alert(json.error || 'Failed to register complaint');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error, please try again later.');
             }
         }
     </script>

@@ -1260,3 +1260,492 @@ input, textarea, select {
     min-height: 44px;
     padding: 10px 12px;
 }
+
+/* ============================= */
+/* WATER TURBIDITY SENSOR SECTION */
+/* ============================= */
+
+.turbidity-section {
+    background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+    padding: 60px 20px;
+    margin: 40px 0;
+    border-top: 4px solid var(--secondary-blue);
+    border-bottom: 4px solid var(--secondary-blue);
+}
+
+.turbidity-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.turbidity-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.turbidity-header h2 {
+    color: var(--dark-blue);
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.turbidity-header h2 i {
+    color: var(--secondary-blue);
+    font-size: 2.5rem;
+}
+
+.section-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Content Grid */
+.turbidity-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: start;
+}
+
+/* Information Cards */
+.turbidity-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid var(--secondary-blue);
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.info-card h3 {
+    color: var(--primary-blue);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-card h3 i {
+    font-size: 1.4rem;
+}
+
+.info-card p {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Reading Display Panel */
+.turbidity-reading {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 119, 182, 0.15);
+    border: 2px solid var(--light-blue);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.reading-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.demo-badge {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+/* NTU Display */
+.reading-display {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 30px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    border: 2px solid var(--light-blue);
+}
+
+.ntu-value-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.ntu-value {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+.ntu-unit {
+    font-size: 1.4rem;
+    color: #666;
+    font-weight: 600;
+}
+
+/* Quality Indicator */
+.quality-indicator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.quality-indicator[data-status="clear"] {
+    background: rgba(34, 197, 94, 0.15);
+    border: 2px solid rgba(34, 197, 94, 0.3);
+}
+
+.quality-indicator[data-status="moderate"] {
+    background: rgba(245, 158, 11, 0.15);
+    border: 2px solid rgba(245, 158, 11, 0.3);
+}
+
+.quality-indicator[data-status="high"] {
+    background: rgba(239, 68, 68, 0.15);
+    border: 2px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.quality-indicator[data-status="clear"] .status-dot {
+    background: #22c55e;
+}
+
+.quality-indicator[data-status="moderate"] .status-dot {
+    background: #f59e0b;
+}
+
+.quality-indicator[data-status="high"] .status-dot {
+    background: #ef4444;
+}
+
+@keyframes pulse-dot {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.2);
+    }
+}
+
+.status-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+}
+
+.quality-indicator[data-status="clear"] .status-text {
+    color: #22c55e;
+}
+
+.quality-indicator[data-status="moderate"] .status-text {
+    color: #f59e0b;
+}
+
+.quality-indicator[data-status="high"] .status-text {
+    color: #ef4444;
+}
+
+/* Quality Scale Reference */
+.quality-scale {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.scale-item {
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    border: 2px solid;
+}
+
+.scale-clear {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.scale-moderate {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.scale-high {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* NTU Info Tooltip */
+.ntu-info {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 0.9rem;
+    cursor: help;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 6px;
+    border: 1px dashed #ddd;
+}
+
+.ntu-info i {
+    color: var(--secondary-blue);
+    font-size: 1rem;
+}
+
+.tooltip-text {
+    display: none;
+}
+
+.ntu-info:hover .tooltip-text {
+    display: block;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark-blue);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ntu-info:hover .tooltip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--dark-blue);
+}
+
+/* Trend Section */
+.turbidity-trend {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.turbidity-trend h3 {
+    color: var(--primary-blue);
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.turbidity-trend h3 i {
+    font-size: 1.5rem;
+}
+
+.mini-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 150px;
+    padding: 20px 0;
+    justify-content: space-around;
+}
+
+.chart-bar {
+    width: 100%;
+    max-width: 30px;
+    border-radius: 6px 6px 0 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chart-bar:hover {
+    filter: brightness(1.1);
+    transform: scaleY(1.05);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .turbidity-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .reading-display {
+        flex-direction: column;
+    }
+
+    .ntu-value {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .turbidity-section {
+        padding: 40px 15px;
+    }
+
+    .turbidity-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .turbidity-content {
+        grid-template-columns: 1fr;
+    }
+
+    .turbidity-reading {
+        padding: 20px;
+    }
+
+    .reading-display {
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .ntu-value {
+        font-size: 2.5rem;
+    }
+
+    .ntu-unit {
+        font-size: 1rem;
+    }
+
+    .info-card {
+        padding: 16px;
+    }
+
+    .info-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .info-card p {
+        font-size: 0.95rem;
+    }
+
+    .quality-scale {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .mini-chart {
+        height: 120px;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .turbidity-section {
+        padding: 30px 10px;
+        margin: 20px 0;
+    }
+
+    .turbidity-header h2 {
+        font-size: 1.4rem;
+        gap: 8px;
+    }
+
+    .turbidity-header h2 i {
+        font-size: 1.8rem;
+    }
+
+    .turbidity-reading {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .reading-display {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .ntu-value-wrapper {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .ntu-value {
+        font-size: 2rem;
+    }
+
+    .status-text {
+        font-size: 1rem;
+    }
+
+    .demo-badge {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+    }
+
+    .info-card {
+        padding: 12px;
+    }
+
+    .quality-scale {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .scale-item {
+        padding: 8px;
+        font-size: 0.75rem;
+    }
+
+    .mini-chart {
+        height: 100px;
+        gap: 4px;
+    }
+
+    .chart-bar {
+        max-width: 20px;
+    }
+}

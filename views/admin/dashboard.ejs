@@ -412,6 +412,28 @@
 
         // Load stats on page load
         window.addEventListener('DOMContentLoaded', loadStats);
+
+        // Delete notice (admin page)
+        async function deleteNotice(btn) {
+            const id = btn && btn.dataset && btn.dataset.id;
+            if (!id) return;
+            if (!confirm('Are you sure you want to delete this notice?')) return;
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/notices/' + encodeURIComponent(id), { method: 'DELETE', headers: { 'Accept': 'application/json' } });
+                const json = await res.json().catch(()=>({}));
+                if (res.ok && json.ok) {
+                    const el = document.getElementById('notice-' + id) || btn.closest('.tab-content');
+                    if (el) el.remove();
+                } else {
+                    btn.disabled = false;
+                    alert(json.error || 'Failed to delete notice');
+                }
+            } catch (err) {
+                btn.disabled = false;
+                alert('Failed to delete notice');
+            }
+        }
     </script>
 
     <style>

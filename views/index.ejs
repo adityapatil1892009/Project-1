@@ -53,16 +53,109 @@
             </div>
         </section>
 
+        <!-- Water Turbidity Sensor Module Section -->
+        <section class="turbidity-section">
+            <div class="turbidity-container">
+                <div class="turbidity-header">
+                    <h2><i class="fas fa-droplet"></i> Water Turbidity Monitoring</h2>
+                    <p class="section-subtitle">Real-time water clarity assessment</p>
+                </div>
+
+                <div class="turbidity-content">
+                    <!-- Left: Information Panel -->
+                    <div class="turbidity-info">
+                        <div class="info-card">
+                            <h3><i class="fas fa-info-circle"></i> What is Turbidity?</h3>
+                            <p>Turbidity measures the cloudiness or haziness of water caused by suspended particles. It's a key indicator of water quality and safety.</p>
+                        </div>
+
+                        <div class="info-card">
+                            <h3><i class="fas fa-flask-vial"></i> Why It Matters</h3>
+                            <p>High turbidity can indicate contamination, algae growth, or sediment. Clear water (low turbidity) is essential for safe drinking water and aquatic ecosystem health.</p>
+                        </div>
+
+                        <div class="info-card">
+                            <h3><i class="fas fa-ruler"></i> What We Measure</h3>
+                            <p>Our advanced sensor measures turbidity in <strong>Nephelometric Turbidity Units (NTU)</strong>, providing precise clarity readings 24/7.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Demo Reading Panel -->
+                    <div class="turbidity-reading">
+                        <div class="reading-label">
+                            <span class="demo-badge">📊 Demo Reading</span>
+                            <small style="color: #999;">Last updated: <span id="turbidity-timestamp">Just now</span></small>
+                        </div>
+
+                        <div class="reading-display">
+                            <div class="ntu-value-wrapper">
+                                <div class="ntu-value" id="turbidity-ntu">2.3</div>
+                                <div class="ntu-unit">NTU</div>
+                            </div>
+
+                            <div class="quality-indicator" id="quality-indicator" data-status="clear">
+                                <div class="status-dot"></div>
+                                <div class="status-text" id="quality-status">Clear</div>
+                            </div>
+                        </div>
+
+                        <!-- Quality Scale Reference -->
+                        <div class="quality-scale">
+                            <div class="scale-item scale-clear">
+                                <small><strong>Clear</strong><br>0-5 NTU</small>
+                            </div>
+                            <div class="scale-item scale-moderate">
+                                <small><strong>Moderate</strong><br>5-25 NTU</small>
+                            </div>
+                            <div class="scale-item scale-high">
+                                <small><strong>High</strong><br>&gt;25 NTU</small>
+                            </div>
+                        </div>
+
+                        <!-- Info Icon with Tooltip -->
+                        <div class="ntu-info">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="tooltip-text">NTU (Nephelometric Turbidity Units) measures light scattering. Lower values indicate clearer water.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Historical Trend (Optional) -->
+                <div class="turbidity-trend">
+                    <h3><i class="fas fa-chart-line"></i> Status Trend (Last 24 Hours)</h3>
+                    <div class="mini-chart">
+                        <div class="chart-bar" style="height: 30%; background: #22c55e;" title="2.1 NTU"></div>
+                        <div class="chart-bar" style="height: 35%; background: #22c55e;" title="2.5 NTU"></div>
+                        <div class="chart-bar" style="height: 25%; background: #22c55e;" title="1.8 NTU"></div>
+                        <div class="chart-bar" style="height: 45%; background: #eab308;" title="4.2 NTU"></div>
+                        <div class="chart-bar" style="height: 40%; background: #eab308;" title="3.8 NTU"></div>
+                        <div class="chart-bar" style="height: 55%; background: #eab308;" title="5.1 NTU"></div>
+                        <div class="chart-bar" style="height: 60%; background: #eab308;" title="5.5 NTU"></div>
+                        <div class="chart-bar" style="height: 35%; background: #22c55e;" title="2.4 NTU"></div>
+                    </div>
+                    <small style="color: #999; text-align: center; display: block; margin-top: 10px;">Hourly average readings (Sample Data)</small>
+                </div>
+            </div>
+        </section>
+
         <!-- Notices Section -->
         <section class="notices-section">
             <h3><i class="fas fa-bell"></i> Important Notices & Announcements</h3>
             <div class="notices-grid">
                 <% if (notices && notices.length > 0) { %>
                     <% notices.forEach(notice => { %>
-                        <div class="notice-card">
+                        <div class="notice-card" id="notice-<%= notice.id %>">
                             <div class="notice-date"><%= notice.date %></div>
                             <h4><%= notice.title %></h4>
                             <p><%= notice.content %></p>
+
+                            <% if (user && (user.role === 'authority' || user.role === 'admin')) { %>
+                                <div style="margin-top:12px; text-align:right;">
+                                    <button onclick="deleteNotice(this)" data-id="<%= notice.id %>" style="padding:8px 12px; background:#ef4444; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+                                        🗑️ Delete
+                                    </button>
+                                </div>
+                            <% } %>
                         </div>
                     <% }); %>
                 <% } else { %>
@@ -79,7 +172,79 @@
     <script>
         // Pass messages to client-side JS
         const clientMessages = <%- JSON.stringify(messages) %>;
+
+        // Demo turbidity data simulation
+        const turbidityReadings = [
+            { ntu: 2.3, status: 'clear' },
+            { ntu: 2.5, status: 'clear' },
+            { ntu: 1.8, status: 'clear' },
+            { ntu: 4.2, status: 'moderate' },
+            { ntu: 3.8, status: 'moderate' },
+            { ntu: 5.1, status: 'moderate' },
+            { ntu: 5.5, status: 'moderate' },
+            { ntu: 2.4, status: 'clear' }
+        ];
+        let turbidityIndex = 0;
+
+        // Update turbidity reading (Demo)
+        function updateTurbidityReading() {
+            const reading = turbidityReadings[turbidityIndex % turbidityReadings.length];
+            const ntuElement = document.getElementById('turbidity-ntu');
+            const statusElement = document.getElementById('quality-status');
+            const indicator = document.getElementById('quality-indicator');
+            const timestamp = document.getElementById('turbidity-timestamp');
+
+            // Update NTU value with animation
+            ntuElement.style.opacity = '0.5';
+            setTimeout(() => {
+                ntuElement.textContent = reading.ntu.toFixed(1);
+                ntuElement.style.opacity = '1';
+            }, 200);
+
+            // Update status
+            statusElement.textContent = reading.status.charAt(0).toUpperCase() + reading.status.slice(1);
+            indicator.setAttribute('data-status', reading.status);
+
+            // Update timestamp
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            timestamp.textContent = `${timeStr}`;
+
+            turbidityIndex++;
+        }
+
+        // Initialize turbidity display
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTurbidityReading();
+            // Optional: Auto-update every 10 seconds (uncomment to enable)
+            // setInterval(updateTurbidityReading, 10000);
+        });
     </script>
+
+    <script>
+        // Delete notice - available only when delete button is shown
+        async function deleteNotice(btn) {
+            const id = btn && btn.dataset && btn.dataset.id;
+            if (!id) return;
+            if (!confirm('Are you sure you want to delete this notice?')) return;
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/notices/' + encodeURIComponent(id), { method: 'DELETE', headers: { 'Accept': 'application/json' } });
+                const json = await res.json().catch(()=>({}));
+                if (res.ok && json.ok) {
+                    const el = document.getElementById('notice-' + id) || btn.closest('.notice-card');
+                    if (el) el.remove();
+                } else {
+                    btn.disabled = false;
+                    alert(json.error || 'Failed to delete notice');
+                }
+            } catch (err) {
+                btn.disabled = false;
+                alert('Failed to delete notice');
+            }
+        }
+    </script>
+
     <script src="/js/script.js"></script>
 </body>
 </html>

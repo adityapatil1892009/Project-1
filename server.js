@@ -72,6 +72,15 @@ function requireAdmin(req, res, next) {
     return res.redirect('/');
 }
 
+// Middleware: require authority or admin role (for delete permission)
+function requireAuthorityOrAdmin(req, res, next) {
+    if (req.session && req.session.user && (req.session.user.role === 'authority' || req.session.user.role === 'admin')) return next();
+    if (req.xhr || (req.headers.accept && req.headers.accept.indexOf('json') > -1)) {
+        return res.status(403).json({ error: 'Forbidden: authority/admin access required' });
+    }
+    return res.status(403).send('Forbidden: authority/admin access required');
+}
+
 // Routes
 
 // Home
@@ -379,6 +388,38 @@ app.post('/notices/new', requireAuthority, (req, res) => {
     }
 });
 
+// Delete notice (authority or admin only)
+app.delete('/api/notices/:id', requireAuthorityOrAdmin, (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        if (isNaN(id)) return res.status(400).json({ error: 'Invalid notice id' });
+
+        const dataDir = path.join(__dirname, 'data');
+        const filePath = path.join(dataDir, 'notices.json');
+        let notices = [];
+        if (fs.existsSync(filePath)) {
+            try {
+                notices = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+                if (!Array.isArray(notices)) notices = [];
+            } catch (e) {
+                notices = [];
+            }
+        }
+
+        const idx = notices.findIndex(n => Number(n.id) === id);
+        if (idx === -1) return res.status(404).json({ error: 'Notice not found' });
+
+        const deleted = notices.splice(idx, 1)[0];
+        fs.writeFileSync(filePath, JSON.stringify(notices, null, 2), 'utf8');
+
+        console.log('✅ Notice deleted:', deleted.id);
+        return res.json({ ok: true, id: deleted.id });
+    } catch (err) {
+        console.error('❌ Delete notice error:', err);
+        return res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // Admin dashboard (authority only)
 app.get('/admin/dashboard', requireAuthority, (req, res) => {
     try {
@@ -564,6 +605,126 @@ app.put('/api/admin/settings', requireAdmin, (req, res) => {
         res.status(500).json({ error: 'Failed to update settings' });
     }
 });
+
+// --- Citizen Complaints API ---
+// Submit complaint (citizen)
+app.post('/citizen/complaint/submit', (req, res) => {
+    try {
+        const payload = req.body || {};
+        // minimal validation
+        const consumerNumber = payload.consumerNumber || '';
+        const phone = payload.phone || '';
+        const name = payload.name || '';
+        const issueType = payload.issueType || '';
+        const severity = payload.severity || '';
+        const description = payload.description || '';
+
+        if (!phone || !issueType || !severity || !description) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        const dataDir = path.join(__dirname, 'data');
+        if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+        const filePath = path.join(dataDir, 'complaints.json');
+
+        let complaints = [];
+        try {
+            if (fs.existsSync(filePath)) {
+                complaints = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+                if (!Array.isArray(complaints)) complaints = [];
+            }
+        } catch (e) { complaints = []; }
+
+        const reference = 'CMP' + Date.now().toString(36).toUpperCase().slice(-8);
+        const entry = {
+            reference,
+            consumerNumber,
+            name,
+            phone,
+            issueType,
+            severity,
+            description,
+            status: 'New',
+            receivedAt: new Date().toISOString()
+        };
+        complaints.push(entry);
+        fs.writeFileSync(filePath, JSON.stringify(complaints, null, 2), 'utf8');
+
+        console.log('✅ Complaint saved:', reference);
+        return res.json({ ok: true, reference });
+    } catch (err) {
+        console.error('❌ Complaint submit error:', err);
+        return res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Get complaints (authority/admin only)
+app.get('/api/complaints', requireAuthorityOrAdmin, (req, res) => {
+    try {
+        const filePath = path.join(__dirname, 'data', 'complaints.json');
+        if (!fs.existsSync(filePath)) return res.json([]);
+        const list = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        res.json(Array.isArray(list) ? list : []);
+    } catch (err) {
+        console.error('❌ Failed to read complaints:', err);
+        res.json([]);
+    }
+});
+
+// Update complaint status (e.g., Viewed, Resolved) (authority/admin only)
+app.put('/api/complaints/:reference', requireAuthorityOrAdmin, (req, res) => {
+    try {
+        const ref = req.params.reference;
+        const { status } = req.body || {};
+        if (!ref || !status) return res.status(400).json({ error: 'Missing reference or status' });
+
+        const filePath = path.join(__dirname, 'data', 'complaints.json');
+        let complaints = [];
+        if (fs.existsSync(filePath)) {
+            try { complaints = JSON.parse(fs.readFileSync(filePath, 'utf8')); if (!Array.isArray(complaints)) complaints = []; } catch (e) { complaints = []; }
+        }
+
+        const idx = complaints.findIndex(c => c.reference === ref);
+        if (idx === -1) return res.status(404).json({ error: 'Complaint not found' });
+
+        complaints[idx].status = status;
+        // optional: track viewedAt/resolvedAt
+        if (status === 'Viewed') complaints[idx].viewedAt = new Date().toISOString();
+        if (status === 'Resolved') complaints[idx].resolvedAt = new Date().toISOString();
+
+        fs.writeFileSync(filePath, JSON.stringify(complaints, null, 2), 'utf8');
+        return res.json({ ok: true, complaint: complaints[idx] });
+    } catch (err) {
+        console.error('❌ Update complaint error:', err);
+        return res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Delete complaint (authority/admin only)
+app.delete('/api/complaints/:reference', requireAuthorityOrAdmin, (req, res) => {
+    try {
+        const ref = req.params.reference;
+        if (!ref) return res.status(400).json({ error: 'Missing reference' });
+
+        const filePath = path.join(__dirname, 'data', 'complaints.json');
+        let complaints = [];
+        if (fs.existsSync(filePath)) {
+            try { complaints = JSON.parse(fs.readFileSync(filePath, 'utf8')); if (!Array.isArray(complaints)) complaints = []; } catch (e) { complaints = []; }
+        }
+
+        const idx = complaints.findIndex(c => c.reference === ref);
+        if (idx === -1) return res.status(404).json({ error: 'Complaint not found' });
+
+        const deleted = complaints.splice(idx, 1)[0];
+        fs.writeFileSync(filePath, JSON.stringify(complaints, null, 2), 'utf8');
+        console.log('✅ Complaint deleted:', deleted.reference);
+        return res.json({ ok: true, reference: deleted.reference });
+    } catch (err) {
+        console.error('❌ Delete complaint error:', err);
+        return res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // Start Server with robust error handling and retry on port conflict
 const server = http.createServer(app);
 
