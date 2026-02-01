@@ -224,6 +224,37 @@
             font-size: 1.05rem;
         }
 
+        /* Google Translate Widget styling */
+        #google_translate_element {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .goog-te-gadget {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 2px solid #0077b6 !important;
+            border-radius: 4px !important;
+            padding: 4px 8px !important;
+        }
+
+        .goog-te-gadget-simple .goog-te-combo {
+            background-color: white !important;
+            border: none !important;
+            color: #0077b6 !important;
+            font-weight: 600 !important;
+            font-size: 0.85rem !important;
+            padding: 2px 6px !important;
+        }
+
+        .goog-te-gadget-simple .goog-te-combo:hover {
+            color: #005f8d !important;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .login-card {
@@ -280,6 +311,9 @@
     </style>
 </head>
 <body>
+    <!-- Google Translate Widget top-right -->
+    <div id="google_translate_element" style="position: absolute; top: 20px; right: 20px;"></div>
+
     <div class="login-wrapper">
         <div class="login-card">
             <!-- Left Side - Info -->
@@ -348,5 +382,17 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,mr',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
